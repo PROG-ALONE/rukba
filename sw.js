@@ -1,6 +1,6 @@
 /* عامل الخدمة: يخلي التطبيق يشتغل بدون إنترنت. غيّر رقم النسخة بعد كل تحديث للملفات. */
-const CACHE = 'rukba-v1.0.0';
-const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'assets/app.css', 'assets/data.js', 'assets/content.js', 'assets/app.js', 'assets/report.js', 'icons/icon.svg', 'icons/icon-192.png', 'icons/apple-touch-icon.png'];
+const CACHE = 'rukba-v1.0.1';
+const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
