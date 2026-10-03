@@ -323,6 +323,10 @@ button.goal { cursor: pointer; }
 .tl > div.hov { border-radius: 10px; padding: 4px 8px 12px; margin-inline-start: -8px; }
 .tl > div.hov::before { inset-inline-start: -12px; }
 details.more { margin-top: 8px; } details.more summary { cursor: pointer; color: var(--ink-2); font-size: 14px; }
+.exf { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; background: var(--surface-2); animation: rise .3s both; }
+.exf-n { font-family: var(--f-display); font-size: 14px; color: var(--accent); }
+.dosef { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); gap: 8px; align-items: end; }
+.seg.sm { margin-top: 4px; display: flex; } .seg.sm button { padding: 8px 12px; font-size: 14px; }
 .thinking { display: flex; align-items: center; gap: 6px; color: var(--ink-2); padding: 10px 0; }
 .thinking span { width: 8px; height: 8px; border-radius: 50%; background: var(--path); animation: blink 1s infinite ease-in-out; }
 .thinking span:nth-child(2) { animation-delay: .15s; } .thinking span:nth-child(3) { animation-delay: .3s; }
@@ -878,17 +882,17 @@ VIEWS.log = {
 
 /* ================= الخطة ================= */
 function exCard(ph, e) {
-  const src = e.howtoSource === 'doctor' ? 'من تعليمات الدكتور' : e.howtoSource === 'ai' ? 'رتّبها Claude: الفيديو وتعليمات الدكتور هي المرجع' : 'وصف عام: الفيديو وتعليمات الدكتور هي المرجع';
+  const src = e.howtoSource === 'doctor' ? '' : e.howtoSource === 'ai' ? 'رتّبها Claude: الفيديو وتعليمات الدكتور هي المرجع' : 'وصف عام: الفيديو وتعليمات الدكتور هي المرجع';
   return `<article class="exc hov" data-x="${ph.id}|${e.id}">
     <div class="row" style="justify-content:space-between;align-items:start"><div style="min-width:0"><b dir="ltr" class="exn">${esc(e.name)}</b>${e.ar ? `<div class="exar">${esc(e.ar)}</div>` : ''}</div><span class="dose num ${e.doseSuggested ? 'sug' : ''}" ${e.doseSuggested ? 'title="جرعة مقترحة، أكّدها مع الدكتور"' : ''}>${esc(e.dose || '—')}${e.doseSuggested ? ' *' : ''}</span></div>
     ${e.goal ? `<div class="muted">${esc(e.goal)}</div>` : ''}${e.muscle ? `<div class="row" style="margin-top:4px">${e.muscle.split(/[،,]/).map(m => `<span class="badge">${esc(m.trim())}</span>`).join('')}</div>` : ''}
-    ${e.howto?.length ? `<div class="exmore"><ol>${e.howto.map(s => `<li>${esc(s)}</li>`).join('')}</ol><div class="muted" style="font-size:12px">${src}</div></div>` : ''}
-    <div class="row" style="margin-top:8px">${e.howto?.length ? '<button class="btn sm" data-more>طريقة الأداء</button>' : ''}${e.video ? `<a class="btn sm" href="${esc(e.video)}" target="_blank" rel="noopener">▶ الفيديو</a>` : ''}${EDIT ? `<button class="btn sm ghost" data-eex="${ph.id}|${e.id}">تعديل</button>` : ''}</div></article>`;
+    ${e.howto?.length ? `<div class="exmore"><ol>${e.howto.map(s => `<li>${esc(s)}</li>`).join('')}</ol>${src ? `<div class="muted" style="font-size:12px">${src}</div>` : ''}</div>` : ''}
+    <div class="row" style="margin-top:8px">${e.howto?.length ? '<button class="btn sm" data-more>التفاصيل</button>' : ''}${e.video ? `<a class="btn sm" href="${esc(e.video)}" target="_blank" rel="noopener">▶ الفيديو</a>` : ''}${EDIT ? `<button class="btn sm ghost" data-eex="${ph.id}|${e.id}">تعديل</button>` : ''}</div></article>`;
 }
 function phaseBlock(ph, cur) {
   return `<div class="row" style="justify-content:space-between;margin-bottom:10px"><div class="row"><span class="badge">${fD(ph.start)} ← ${ph.end ? fD(ph.end) : 'مستمرة'}</span><span class="badge ${ph.painLimit ? 'warn' : 'ok'}">حد الألم ${ph.painLimit}</span><span class="badge">${fmt(ph.stepTarget)} خطوة</span></div>${EDIT ? `<button class="btn sm ghost" data-eph="${ph.id}">تعديل المرحلة</button>` : ''}</div>
     ${ph.goal ? `<div class="note" style="margin-bottom:10px">${esc(ph.goal)}</div>` : ''}
-    <div class="exgrid">${ph.exercises.filter(e => e.active !== false).map(e => exCard(ph, e)).join('')}</div>`;
+    <div class="exgrid">${ph.exercises.filter(e => e.active !== false).map(e => exCard(ph, e)).join('')}</div>${EDIT ? `<button class="btn sm" data-addx="${ph.id}" style="margin-top:10px">+ تمرين لهذي المرحلة</button>` : ''}`;
 }
 VIEWS.plan = {
   lv: null,
@@ -897,7 +901,7 @@ VIEWS.plan = {
     const selPh = phasesSorted().filter(p => p.level === sel.id), old = phasesSorted().filter(p => p !== cur).reverse(), ss = levelStatus(sel);
     return `
     <div class="head"><div><h1>الخطة</h1><p>برنامج د. أصيل بمستوياته. اضغط على أي مستوى.</p></div>
-      ${EDIT ? `<div class="row"><button class="btn primary" id="newPlan">✦ خطة جديدة بعد الجلسة</button><button class="btn" id="addConsult">تسجيل استشارة</button></div>` : ''}</div>
+      ${EDIT ? `<div class="row"><button class="btn primary" id="newPlan">+ خطة جديدة</button><button class="btn" id="addConsult">تسجيل استشارة</button></div>` : ''}</div>
     <section class="card">
       <div class="stepper">${D.levels.map((L, i) => `<button class="stp ${levelStatus(L)} ${L === sel ? 'sel' : ''}" data-lv="${L.id}"><span class="n">${levelStatus(L) === 'done' ? '✓' : i + 1}</span><span class="t">${esc(L.name)}</span></button>`).join('')}</div>
       <div class="lvd" key="${sel.id}"><h2>${esc(sel.name)} <span class="row"><span class="muted ltr">${esc(sel.en)}</span><span class="badge ${ss === 'done' ? 'ok' : ss === 'now' ? 'path' : ''}">${ss === 'done' ? 'تم' : ss === 'now' ? 'الآن' : 'قادم'}</span></span></h2>
@@ -913,7 +917,7 @@ VIEWS.plan = {
   },
   bind(root) {
     $$('[data-lv]', root).forEach(b => b.onclick = () => { VIEWS.plan.lv = b.dataset.lv; const y = scrollY; render(); scrollTo(0, y); });
-    $$('[data-more]', root).forEach(b => b.onclick = () => { const c = b.closest('.exc'); c.classList.toggle('open'); b.textContent = c.classList.contains('open') ? 'إخفاء' : 'طريقة الأداء'; });
+    $$('[data-more]', root).forEach(b => b.onclick = () => { const c = b.closest('.exc'); c.classList.toggle('open'); b.textContent = c.classList.contains('open') ? 'إخفاء' : 'التفاصيل'; });
     if (!EDIT) return;
     $('#nextC', root).onchange = e => { D.profile.nextConsult = e.target.value; markDirty('cfg'); toast('حُفظ موعد الاستشارة'); };
     $('#addConsult', root).onclick = () => dialog('تسجيل استشارة', `<label class="f">التاريخ<input type="date" id="cD" value="${today()}"></label><label class="f" style="margin-top:8px">العنوان<input type="text" id="cT" value="استشارة مع د. أصيل"></label><label class="f" style="margin-top:8px">شنو تقرر<textarea id="cN"></textarea></label>`,
@@ -922,100 +926,82 @@ VIEWS.plan = {
     $$('[data-eph]', root).forEach(b => b.onclick = () => { const ph = D.phases.find(p => p.id === b.dataset.eph);
       dialog('تعديل المرحلة', `<label class="f">الاسم<input type="text" id="pN" value="${esc(ph.name)}"></label><div class="grid g2" style="margin-top:8px"><label class="f">البداية<input type="date" id="pS" value="${ph.start}"></label><label class="f">النهاية<input type="date" id="pE" value="${ph.end || ''}"></label><label class="f">حد الألم<input type="number" id="pL" value="${ph.painLimit}"></label><label class="f">هدف الخطوات<input type="number" id="pT" value="${ph.stepTarget}"></label></div><label class="f" style="margin-top:8px">المستوى<select id="pLv">${D.levels.map(L => `<option value="${L.id}" ${ph.level === L.id ? 'selected' : ''}>${esc(L.name)}</option>`).join('')}</select></label><label class="f" style="margin-top:8px">تعليمات عامة<textarea id="pG" style="min-height:60px">${esc(ph.goal || '')}</textarea></label>`,
         [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { Object.assign(ph, { name: $('#pN', dl).value, start: $('#pS', dl).value, end: $('#pE', dl).value, painLimit: num($('#pL', dl).value) ?? 0, stepTarget: num($('#pT', dl).value) ?? ph.stepTarget, level: $('#pLv', dl).value, goal: $('#pG', dl).value }); markDirty('cfg'); render(); } }]); });
-    $$('[data-eex]', root).forEach(b => b.onclick = () => { const [pid, xid] = b.dataset.eex.split('|'); const ph = D.phases.find(p => p.id === pid), e = ph.exercises.find(x => x.id === xid);
-      const dl = dialog('تعديل التمرين', `<label class="f">الاسم<input type="text" id="xN" dir="ltr" value="${esc(e.name)}"></label><div class="grid g2" style="margin-top:8px"><label class="f">الاسم العربي<input type="text" id="xR" value="${esc(e.ar || '')}"></label><label class="f">الجرعة<input type="text" id="xD" value="${esc(e.dose)}"></label></div><label class="f" style="margin-top:8px">رابط الفيديو<input type="url" id="xV" dir="ltr" value="${esc(e.video || '')}"></label><label class="f" style="margin-top:8px">طريقة الأداء (سطر لكل خطوة)<textarea id="xH">${esc((e.howto || []).join('\n'))}</textarea></label><label class="row" style="margin-top:8px"><input type="checkbox" id="xA" ${e.active !== false ? 'checked' : ''} style="width:20px;height:20px"> ضمن المتابعة اليومية</label>${AI.ok() ? `<button class="btn ai sm" id="xAI" style="margin-top:8px">✦ اقترح طريقة الأداء بـ Claude</button>` : ''}`,
-        [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { const h = $('#xH', dl).value.split('\n').map(s => s.trim()).filter(Boolean); if (h.join() !== (e.howto || []).join()) e.howtoSource = e._ai ? 'ai' : 'doctor'; delete e._ai; const nd = $('#xD', dl).value; if (nd !== e.dose) e.doseSuggested = false; Object.assign(e, { name: $('#xN', dl).value, ar: $('#xR', dl).value, dose: nd, video: $('#xV', dl).value, howto: h, active: $('#xA', dl).checked }); markDirty('cfg'); render(); } }]);
-      const ai = $('#xAI', dl); if (ai) ai.onclick = async () => { ai.disabled = true; ai.textContent = 'Claude يكتب…'; try { const r = await AI.json(`أنت مساعد علاج طبيعي. اكتب طريقة أداء التمرين التالي بخطوات قصيرة وواضحة باللهجة العراقية المبسطة (3 إلى 5 خطوات)، بدون تغيير الجرعة، وآخر خطوة عن حد الألم (${ph.painLimit}/10). التمرين: ${e.name}. الجرعة: ${e.dose}. الهدف: ${e.goal}. أرجع JSON فقط بالشكل {"steps":["..."]}`); if (r?.steps?.length) { $('#xH', dl).value = r.steps.join('\n'); e._ai = true; } } catch (er) { toast(AI.err(er)); } ai.disabled = false; ai.textContent = '✦ اقترح طريقة الأداء بـ Claude'; };
-    });
+    $$('[data-eex]', root).forEach(b => b.onclick = () => { const [pid, xid] = b.dataset.eex.split('|'); const ph = D.phases.find(p => p.id === pid); editExercise(ph, ph.exercises.find(x => x.id === xid)); });
+    $$('[data-addx]', root).forEach(b => b.onclick = () => editExercise(D.phases.find(p => p.id === b.dataset.addx)));
   }
 };
 
-/* ---------- خطة جديدة: أسماء وروابط ← Claude يرتب ---------- */
-function localParse(txt) {
-  const out = []; const urlRe = /https?:\/\/[^\s<>"')]+/g;
-  for (let line of txt.split(/\n+/)) {
-    const urls = line.match(urlRe) || []; line = line.replace(urlRe, ' ').replace(/^[\s\-–•*·\d.)(]+/, '').replace(/[\s:–\-|،,]+$/, '').trim();
-    const dm = line.match(/(\d+\s*[x×X*]\s*\d+\s*(?:ث|ثانية|ثواني|s|sec|seconds?)?|\d+\s*(?:ث|ثانية|ثواني|sec|seconds?|دقيقة|دقائق|min))/);
-    if (line) out.push({ name: line.replace(dm?.[0] || '', '').replace(/[\s:–\-]+$/, '').trim() || line, dose: dm ? dm[0].trim() : '', video: urls[0] || '' });
-    else if (urls.length) { const last = [...out].reverse().find(e => !e.video); if (last) last.video = urls[0]; else out.push({ name: '', dose: '', video: urls[0] }); }
-  }
-  return out.filter(e => e.name || e.video);
+/* ---------- إدخال التمارين يدوياً: الاسم، الجلسات، العدد أو الثبات، الرابط، التفاصيل ---------- */
+const parseDose = d => { const m = String(d || '').match(/^\s*(\d+)\s*[x×X*]\s*(\d+)\s*(ث|ثانية|ثواني|s|sec)?\s*$/); return m ? { sets: +m[1], mode: m[3] ? 'hold' : 'reps', val: +m[2] } : null; };
+const doseOf = e => e.sets && e.val ? `${e.sets} × ${e.val}${e.mode === 'hold' ? ' ث' : ''}` : (e.dose || '');
+const shortOf = n => (n.replace(/[^A-Za-z0-9 ]/g, '').split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 5)) || n.replace(/\s+/g, '').slice(0, 4);
+function exForm(e = {}, i = 0, withActive) {
+  const pd = e.sets ? e : (parseDose(e.dose) || {}), mode = pd.mode || 'reps';
+  return `<div class="exf" data-od="${esc(pd.sets ? '' : (e.dose || ''))}">
+    <div class="row" style="justify-content:space-between"><b class="exf-n">تمرين ${i + 1}</b>${withActive ? '' : '<button type="button" class="btn sm ghost danger" data-rm aria-label="حذف التمرين">✕</button>'}</div>
+    <label class="f">اسم التمرين<input type="text" data-k="name" dir="auto" value="${esc(e.name || '')}" placeholder="مثلاً: Spanish Squat"></label>
+    <div class="dosef">
+      <label class="f">الجلسات<input type="number" inputmode="numeric" min="1" data-k="sets" value="${pd.sets ?? ''}" placeholder="3"></label>
+      <div class="f">النوع<div class="seg sm" role="group">${[['reps', 'عدد'], ['hold', 'ثبات']].map(([k, l]) => `<button type="button" data-mode="${k}" aria-selected="${mode === k}">${l}</button>`).join('')}</div></div>
+      <label class="f"><span data-vl>${mode === 'hold' ? 'الثبات (ثانية)' : 'العدد'}</span><input type="number" inputmode="numeric" min="1" data-k="val" value="${pd.val ?? ''}" placeholder="${mode === 'hold' ? '45' : '10'}"></label>
+    </div>
+    ${!pd.sets && e.dose ? `<div class="muted">الجرعة المسجلة: <span class="num">${esc(e.dose)}</span>. تبقى إذا تركت الحقول فارغة.</div>` : ''}
+    <label class="f">الرابط<input type="url" data-k="video" dir="ltr" value="${esc(e.video || '')}" placeholder="https://"></label>
+    <label class="f">التفاصيل (كل سطر خطوة)<textarea data-k="details" dir="auto" style="min-height:70px" placeholder="طريقة الأداء، ملاحظات الدكتور…">${esc((e.howto || []).join('\n'))}</textarea></label>
+    ${withActive ? `<label class="row"><input type="checkbox" data-k="active" ${e.active !== false ? 'checked' : ''} style="width:20px;height:20px"> ضمن المتابعة اليومية</label>` : ''}
+  </div>`;
+}
+function bindExForm(c) {
+  $$('[data-mode]', c).forEach(b => b.onclick = () => { $$('[data-mode]', c).forEach(x => x.setAttribute('aria-selected', x === b)); const h = b.dataset.mode === 'hold'; $('[data-vl]', c).textContent = h ? 'الثبات (ثانية)' : 'العدد'; $('[data-k="val"]', c).placeholder = h ? '45' : '10'; });
+}
+function readExForm(c) {
+  const g = k => $(`[data-k="${k}"]`, c)?.value.trim() ?? '';
+  const e = { name: g('name'), sets: num(g('sets')), val: num(g('val')), mode: $('[data-mode][aria-selected="true"]', c)?.dataset.mode || 'reps', video: g('video'), howto: g('details').split('\n').map(s => s.trim()).filter(Boolean) };
+  e.dose = e.sets && e.val ? doseOf(e) : (c.dataset.od || '');
+  if (!(e.sets && e.val)) { e.sets = null; e.val = null; }
+  return e;
 }
 function newPlanDialog() {
-  const ok = AI.ok(), cur = curPhase();
-  const dl = dialog('خطة جديدة بعد الجلسة', `
-    <p class="sub" style="margin-top:0">اكتب أسماء التمارين، كل تمرين بسطر، ومعاه الرابط إذا عندك. أو الصق رسالة الواتساب كما هي.
-    ${ok ? 'Claude يرتبها: الاسم الصحيح، والجرعة، والهدف، والعضلات، وطريقة الأداء.' : '<br><b>Claude غير مفعّل</b>، فعّله من الإعدادات حتى يرتبها. أو احفظها بالأسماء والروابط بس.'}</p>
-    <div id="npIn"><textarea id="wa" dir="auto" style="min-height:150px" placeholder="Spanish squat 5×45ث https://youtu.be/…&#10;Step down&#10;Wall sit"></textarea></div>
-    <details class="more"><summary>تفاصيل المرحلة (اختياري)</summary><div class="grid g2" style="margin-top:6px">
+  const cur = curPhase();
+  const dl = dialog('خطة جديدة', `
+    <div class="grid g2">
+      <label class="f">اسم المرحلة<input type="text" id="npN" placeholder="المرحلة ${D.phases.length + 1}"></label>
       <label class="f">تبدأ من<input type="date" id="npS" value="${today()}"></label>
       <label class="f">المستوى<select id="npL">${D.levels.map(L => `<option value="${L.id}" ${levelStatus(L) === 'now' ? 'selected' : ''}>${esc(L.name)}</option>`).join('')}</select></label>
-      <label class="f">حد الألم<input type="number" id="npP" value="${cur?.painLimit ?? 0}"></label>
-      <label class="f">هدف الخطوات<input type="number" id="npT" value="${cur?.stepTarget ?? 7000}"></label></div></details>
-    <div id="npOut" style="margin-top:10px"></div>`,
-    [{ label: 'إلغاء' }, ok ? { label: '✦ رتّبها بـ Claude', cls: 'primary', run: async dl => { await arrangePlan(dl); return false; } } : { label: 'رتّبها بدون Claude', cls: 'primary', run: dl => { const t = $('#wa', dl).value.trim(); if (!t) { toast('اكتب التمارين أولاً'); return false; } planPreview(dl, { phaseName: '', notes: '', exercises: localParse(t).map(e => ({ ...e, howto: [], doseSuggested: false })) }, false); return false; } }]);
+      <div class="grid g2" style="gap:8px"><label class="f">حد الألم<input type="number" id="npP" value="${cur?.painLimit ?? 0}"></label><label class="f">الخطوات<input type="number" id="npT" value="${cur?.stepTarget ?? 7000}"></label></div>
+    </div>
+    <label class="f" style="margin-top:8px">ملاحظات الدكتور (اختياري)<textarea id="npNotes" dir="auto" style="min-height:56px"></textarea></label>
+    <div class="row" style="justify-content:space-between;margin-top:16px"><h3 style="font-size:16px">التمارين</h3>${cur ? '<button type="button" class="btn sm" id="npCopy">انسخ تمارين المرحلة الحالية</button>' : ''}</div>
+    <div id="npEx" class="stack" style="gap:10px;margin-top:8px"></div>
+    <button type="button" class="btn sm" id="npAdd" style="margin-top:10px">+ تمرين</button>`,
+    [{ label: 'إلغاء' }, { label: 'حفظ الخطة', cls: 'primary', run: dl => savePlan(dl) }]);
+  const box = $('#npEx', dl);
+  const renum = () => $$('.exf', box).forEach((c, i) => $('.exf-n', c).textContent = 'تمرين ' + (i + 1));
+  const add = e => { box.insertAdjacentHTML('beforeend', exForm(e, box.children.length)); const c = box.lastElementChild; bindExForm(c); $('[data-rm]', c).onclick = () => { c.remove(); renum(); }; return c; };
+  add();
+  $('#npAdd', dl).onclick = () => { const c = add(); c.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); $('[data-k="name"]', c).focus(); };
+  const cp = $('#npCopy', dl); if (cp) cp.onclick = () => { box.innerHTML = ''; activeEx(cur).forEach(e => add(e)); renum(); toast('انسخت، عدّل اللي تغيّر'); };
 }
-async function arrangePlan(dl) {
-  const txt = $('#wa', dl).value.trim(); if (!txt) { toast('اكتب التمارين أولاً'); return; }
-  const out = $('#npOut', dl), L = D.levels.find(l => l.id === $('#npL', dl).value), lim = num($('#npP', dl).value) ?? 0;
-  out.innerHTML = '<div class="thinking"><span></span><span></span><span></span> Claude يرتب التمارين…</div>';
-  try {
-    const r = await AI.json(`أنت مساعد علاج طبيعي يرتب خطة تمارين لمريض عنده اعتلال الوتر الرضفي بالركبة اليسرى. المستوى الحالي: ${L.name} — ${L.desc}. حد الألم ${lim}/10.
-المريض كتب بعد جلسته مع المعالج أسماء التمارين، وأحياناً روابط فيديو وجرعات. رتّبها حسب القواعد:
-- لا تضيف تمرين غير مذكور، ولا تحذف أي تمرين، وحافظ على الترتيب.
-- name: الاسم الإنكليزي الشائع للتمرين (صحّح الإملاء).
-- ar: اسم عربي قصير.
-- short: اختصار من 2 إلى 5 أحرف إنكليزية كبيرة.
-- dose: إذا الجرعة مذكورة انسخها كما هي و doseSuggested=false. إذا مو مذكورة اقترح جرعة محافظة تناسب المستوى بصيغة مثل "3 × 10" أو "5 × 45 ث"، و doseSuggested=true.
-- goal: هدف التمرين بجملة قصيرة بالعربي.
-- muscle: العضلات الأساسية، كلمتين أو ثلاث مفصولة بفاصلة.
-- howto: من 3 إلى 5 خطوات قصيرة باللهجة العراقية المبسطة، وآخر خطوة عن حد الألم.
-- video: الرابط المرتبط بالتمرين كما هو بالضبط، أو "".
-وأرجع phaseName (اسم قصير للمرحلة بالعربي)، و notes (أي تعليمات عامة مذكورة بالنص، أو "").
-أرجع JSON فقط بهذا الشكل:
-{"phaseName":"","notes":"","exercises":[{"name":"","ar":"","short":"","dose":"","doseSuggested":false,"goal":"","muscle":"","howto":[],"video":""}]}
-
-النص:
-${txt}
-
-ربط أولي للروابط بالأسطر (للمساعدة): ${JSON.stringify(localParse(txt))}`);
-    planPreview(dl, { phaseName: r.phaseName || '', notes: r.notes || '', exercises: (r.exercises || []).map(e => ({ name: e.name || '', ar: e.ar || '', short: e.short || '', dose: e.dose || '', doseSuggested: !!e.doseSuggested, goal: e.goal || '', muscle: e.muscle || '', howto: Array.isArray(e.howto) ? e.howto : [], video: e.video || '' })) }, true);
-  } catch (e) { out.innerHTML = `<div class="note warn">${AI.err(e)}</div>`; }
-}
-function planPreview(dl, plan, ai) {
-  dl._plan = plan; dl._ai = ai; const inp = $('#npIn', dl); if (inp) inp.hidden = true;
-  const out = $('#npOut', dl);
-  const card = (e, i) => e._edit ? `<div class="exc" data-i="${i}"><div class="grid g2"><label class="f">التمرين<input type="text" data-k="name" dir="ltr" value="${esc(e.name)}"></label><label class="f">بالعربي<input type="text" data-k="ar" value="${esc(e.ar || '')}"></label><label class="f">الجرعة<input type="text" data-k="dose" value="${esc(e.dose)}"></label><label class="f">الفيديو<input type="url" data-k="video" dir="ltr" value="${esc(e.video)}"></label></div><label class="f" style="margin-top:6px">طريقة الأداء (سطر لكل خطوة)<textarea data-k="howto" style="min-height:70px">${esc((e.howto || []).join('\n'))}</textarea></label><button class="btn sm primary" data-ok="${i}" style="margin-top:6px">تم</button></div>`
-    : `<article class="exc hov pv" data-i="${i}"><div class="row" style="justify-content:space-between;align-items:start"><div style="min-width:0"><b dir="ltr" class="exn">${esc(e.name)}</b>${e.ar ? `<div class="exar">${esc(e.ar)}</div>` : ''}</div><span class="dose num ${e.doseSuggested ? 'sug' : ''}">${esc(e.dose || '—')}${e.doseSuggested ? ' *' : ''}</span></div>
-      ${e.goal ? `<div class="muted">${esc(e.goal)}</div>` : ''}${e.howto?.length ? `<div class="muted" style="font-size:12.5px">${e.howto.length} خطوات أداء</div>` : ''}
-      <div class="row" style="margin-top:6px">${e.video ? '<span class="badge acc">▶ فيديو</span>' : ''}<span class="grow"></span><button class="btn sm ghost" data-ed="${i}">تعديل</button><button class="btn sm ghost danger" data-rm="${i}" aria-label="حذف">✕</button></div></article>`;
-  out.innerHTML = `<div class="note path" style="margin-bottom:8px">${ai ? 'رتّبها Claude. ' : ''}راجعها قبل الاعتماد. <button class="btn sm ghost" id="npBack">عدّل النص</button>${plan.exercises.some(e => e.doseSuggested) ? ' الجرعات المعلّمة بـ * مقترحة، أكّدها مع الدكتور.' : ''}</div>
-    <label class="f">اسم المرحلة<input type="text" id="npN" value="${esc(plan.phaseName)}" placeholder="مثلاً: المرحلة الثالثة — تحميل ثقيل"></label>
-    ${plan.notes ? `<label class="f" style="margin-top:8px">تعليمات عامة<textarea id="npNotes" style="min-height:56px">${esc(plan.notes)}</textarea></label>` : ''}
-    <div class="exgrid one" style="margin-top:10px">${plan.exercises.map(card).join('')}</div>`;
-  const bk = $('#npBack', out); if (bk) bk.onclick = () => { $('#npIn', dl).hidden = false; $('#wa', dl).focus(); };
-  $$('[data-ed]', out).forEach(b => b.onclick = () => { syncPlan(dl); plan.exercises[+b.dataset.ed]._edit = true; planPreview(dl, plan, ai); });
-  $$('[data-rm]', out).forEach(b => b.onclick = () => { syncPlan(dl); plan.exercises.splice(+b.dataset.rm, 1); planPreview(dl, plan, ai); });
-  $$('[data-ok]', out).forEach(b => b.onclick = () => { syncPlan(dl); delete plan.exercises[+b.dataset.ok]._edit; planPreview(dl, plan, ai); });
-  dl._set([{ label: 'إلغاء' }, ...(AI.ok() ? [{ label: 'أعد الترتيب', cls: 'ai', run: async dl => { await arrangePlan(dl); return false; } }] : []), { label: 'اعتمد الخطة', cls: 'primary', run: dl => savePlan(dl) }]);
-}
-function syncPlan(dl) {
-  const p = dl._plan; const n = $('#npN', dl); if (n) p.phaseName = n.value; const nt = $('#npNotes', dl); if (nt) p.notes = nt.value;
-  $$('#npOut .exc[data-i]', dl).forEach(c => { if (!$('[data-k]', c)) return; const e = p.exercises[+c.dataset.i], g = k => $(`[data-k="${k}"]`, c).value.trim();
-    const nd = g('dose'); if (nd !== e.dose) e.doseSuggested = false; const h = g('howto').split('\n').map(s => s.trim()).filter(Boolean); if (h.join() !== (e.howto || []).join()) e._hEdited = true;
-    Object.assign(e, { name: g('name'), ar: g('ar'), dose: nd, video: g('video'), howto: h }); });
-}
+function newExercise(e) { return { id: uid('x'), name: e.name, short: shortOf(e.name), dose: e.dose, sets: e.sets, val: e.val, mode: e.mode, goal: '', video: e.video, howto: e.howto, howtoSource: e.howto.length ? 'doctor' : 'general', active: true }; }
 function savePlan(dl) {
-  syncPlan(dl); const p = dl._plan, start = $('#npS', dl).value || today(), level = $('#npL', dl).value;
-  const exs = p.exercises.filter(e => e.name); if (!exs.length) { toast('ماكو تمارين'); return false; }
-  if (exs.some(e => e._edit)) { toast('اضغط "تم" على التمرين المفتوح'); return false; }
+  const exs = $$('#npEx .exf', dl).map(readExForm).filter(e => e.name);
+  if (!exs.length) { toast('اكتب اسم تمرين واحد على الأقل'); return false; }
+  const start = $('#npS', dl).value || today(), level = $('#npL', dl).value, name = $('#npN', dl).value.trim() || `المرحلة ${D.phases.length + 1}`, notes = $('#npNotes', dl).value.trim();
   const cur = curPhase(); if (cur && !cur.end && cur.start < start) cur.end = addDays(start, -1);
-  const short = n => n.replace(/[^A-Za-z0-9 ]/g, '').split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 5) || 'EX';
-  const name = p.phaseName || `المرحلة ${D.phases.length + 1}`;
-  D.phases.push({ id: uid('p'), name, nameEn: '', start, end: '', painLimit: num($('#npP', dl).value) ?? 0, stepTarget: num($('#npT', dl).value) ?? 7000, goal: p.notes || '', level,
-    exercises: exs.map(e => ({ id: uid('x'), name: e.name, ar: e.ar || '', short: (e.short || short(e.name)).slice(0, 5), dose: e.dose, doseSuggested: !!e.doseSuggested, goal: e.goal || '', muscle: e.muscle || '', video: e.video, howto: e.howto || [], howtoSource: !e.howto?.length ? 'general' : e._hEdited ? 'doctor' : dl._ai ? 'ai' : 'doctor', active: true })) });
-  D.consults.push({ id: uid('c'), date: start, title: 'خطة جديدة: ' + name, notes: p.notes || '' });
-  VIEWS.plan.lv = null; markDirty('cfg'); route('plan'); toast('اعتُمدت الخطة الجديدة');
+  D.phases.push({ id: uid('p'), name, nameEn: '', start, end: '', painLimit: num($('#npP', dl).value) ?? 0, stepTarget: num($('#npT', dl).value) ?? 7000, goal: notes, level, exercises: exs.map(newExercise) });
+  D.consults.push({ id: uid('c'), date: start, title: 'خطة جديدة: ' + name, notes });
+  VIEWS.plan.lv = null; markDirty('cfg'); route('plan'); toast('حُفظت الخطة الجديدة');
+}
+function editExercise(ph, e) {
+  const dl = dialog(e ? 'تعديل التمرين' : 'تمرين جديد', exForm(e || {}, 0, true), [
+    ...(e ? [{ label: 'حذف', cls: 'danger', run: () => { const i = ph.exercises.indexOf(e); if (D.logs && Object.values(D.logs).some(l => l.ex?.[e.id])) e.active = false; else ph.exercises.splice(i, 1); markDirty('cfg'); render(); toast('انشال التمرين'); } }] : []),
+    { label: 'إلغاء' },
+    { label: 'حفظ', cls: 'primary', run: dl => { const c = $('.exf', dl), v = readExForm(c); if (!v.name) { toast('اكتب الاسم'); return false; }
+      const act = $('[data-k="active"]', c).checked;
+      if (e) { if ((v.howto || []).join() !== (e.howto || []).join()) e.howtoSource = v.howto.length ? 'doctor' : 'general'; Object.assign(e, { name: v.name, dose: v.dose, sets: v.sets, val: v.val, mode: v.mode, video: v.video, howto: v.howto, active: act, doseSuggested: false }); }
+      else ph.exercises.push({ ...newExercise(v), active: act });
+      markDirty('cfg'); render(); } }]);
+  $('.exf-n', dl).textContent = e ? e.name : 'تمرين جديد'; bindExForm($('.exf', dl));
 }
 
 /* ================= الإصابة: التمثيل التشريحي ================= */
@@ -1223,8 +1209,8 @@ VIEWS.settings = {
       <section class="card"><h2>الملف</h2><div class="grid g2">
         ${[['name', 'الاسم', 'text'], ['startWeight', 'وزن البداية', 'number'], ['goalWeight', 'الوزن الهدف', 'number'], ['flexionNow', 'زاوية الثني الأولية', 'number'], ['flexionGoal', 'زاوية السجود الهدف', 'number'], ['startDate', 'بداية العلاج', 'date']].map(([k, l, ty]) => `<label class="f">${l}<input type="${ty}" data-pk="${k}" value="${esc(p[k] ?? '')}" ${ty === 'number' ? 'step="any"' : ''}></label>`).join('')}</div></section>
       <section class="card"><h2>Claude ${AI.ok() ? '<span class="badge ok">مفعّل</span>' : '<span class="badge">غير مفعّل</span>'}</h2>
-        ${!gh ? '<p class="sub" style="margin:0">Claude مربوط تلقائياً هنا: ترتيب الخطط، وطريقة الأداء، وملخص التقرير.</p>'
-        : `<p class="sub" style="margin-top:0">حتى يرتب Claude خططك من أسماء التمارين، الصق مفتاح API من <span class="ltr">console.anthropic.com</span>. محاسبته منفصلة عن اشتراك Claude، والطلب الواحد يكلف أقل من سنت تقريباً. المفتاح يُحفظ على هذا الجهاز بس.</p>
+        ${!gh ? '<p class="sub" style="margin:0">Claude مربوط تلقائياً هنا لكتابة ملخص التقرير.</p>'
+        : `<p class="sub" style="margin-top:0">اختياري: حتى يكتب Claude ملخص تقرير الاستشارة، الصق مفتاح API من <span class="ltr">console.anthropic.com</span>. محاسبته منفصلة عن اشتراك Claude، والطلب الواحد يكلف أقل من سنت تقريباً. المفتاح يُحفظ على هذا الجهاز بس.</p>
           <label class="f">مفتاح API<input type="password" id="aKey" dir="ltr" value="${esc(s.apiKey || '')}" placeholder="sk-ant-…"></label>
           <div class="row" style="margin-top:8px"><button class="btn primary" id="aSave">حفظ وتجربة</button>${s.apiKey ? '<button class="btn" id="aOff">حذف المفتاح</button>' : ''}</div>`}</section>
       ${gh ? `<section class="card"><h2>المزامنة بين الأجهزة</h2>
