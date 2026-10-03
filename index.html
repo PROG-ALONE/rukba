@@ -200,6 +200,158 @@ dialog .df { padding: 10px 18px 16px; display: flex; gap: 8px; justify-content: 
 .xr { display: grid; gap: 12px; }
 .xr img { width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block; }
 .xr figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* ================= تبسيط + حركة ================= */
+.top-in { padding-bottom: 0; }
+.tabs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding: 8px 0; max-width: 620px; margin-inline: auto; overflow: visible; }
+.tabs button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; border-radius: 12px; font-size: 13px; transition: background .2s, color .2s; }
+.tabs button svg { width: 22px; height: 22px; transition: transform .25s cubic-bezier(.3,1.4,.5,1); }
+.tabs button:hover { background: var(--surface-2); color: var(--ink); }
+.tabs button:hover svg { transform: translateY(-2px) scale(1.1); }
+.tabs button[aria-current="page"] { background: var(--accent); color: var(--accent-ink); }
+.iconbtn { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; color: var(--ink-2); transition: transform .35s, color .2s, background .2s; padding: 0; }
+.iconbtn svg { width: 21px; height: 21px; }
+.iconbtn:hover { color: var(--accent); transform: rotate(45deg); }
+.iconbtn[aria-current] { background: var(--ink); color: var(--bg); }
+.badge[hidden] { display: none; }
+
+.hov { transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s, border-color .22s, background .22s; }
+.hov:hover { transform: translateY(-3px); box-shadow: 0 12px 26px -16px color-mix(in srgb, var(--ink) 55%, transparent); border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+.btn { transition: transform .15s, background .2s, box-shadow .2s, border-color .2s; }
+.btn:hover:not(:disabled) { transform: translateY(-1px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.btn:active:not(:disabled) { transform: scale(.97); }
+.btn.primary:hover:not(:disabled) { box-shadow: 0 6px 16px -8px var(--accent); }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--ink-2); }
+.btn.ghost:hover { background: var(--surface-2); }
+main > * { animation: rise .45s cubic-bezier(.2,.8,.2,1) both; }
+main > *:nth-child(2) { animation-delay: .05s; } main > *:nth-child(3) { animation-delay: .1s; } main > *:nth-child(4) { animation-delay: .15s; } main > *:nth-child(5) { animation-delay: .2s; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+.meter > i { animation: grow .9s cubic-bezier(.2,.8,.2,1) both; transform-origin: right; }
+@keyframes grow { from { width: 0; } }
+.head h1 { font-size: clamp(22px, 3vw, 28px); }
+
+/* الطريق */
+.journey { position: relative; }
+.journey .jp { cursor: pointer; outline: none; }
+.journey .jp .m { transform-box: fill-box; transform-origin: center; transition: transform .25s cubic-bezier(.3,1.5,.5,1); }
+.journey .jp:hover .m, .journey .jp.on .m, .journey .jp:focus-visible .m { transform: scale(1.6); }
+.journey .jp .lbl { transition: fill .2s; } .journey .jp.on .lbl.b { fill: var(--accent); }
+.jdone { stroke-dasharray: 100; animation: draw 1.6s .2s cubic-bezier(.4,0,.2,1) both; }
+@keyframes draw { from { stroke-dashoffset: 100; } }
+.jtip { position: absolute; z-index: 6; width: min(260px, 80%); transform: translate(-50%, 0); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13.5px; box-shadow: 0 14px 30px -14px color-mix(in srgb, var(--ink) 60%, transparent); pointer-events: none; animation: pop .18s ease-out; }
+.jtip.up { transform: translate(-50%, -100%); }
+.jtip div { margin-top: 3px; } .jtip .muted { font-size: 12.5px; }
+@keyframes pop { from { opacity: 0; } }
+.jhint { margin: 0; font-size: 12.5px; }
+.jwrap { overflow-x: auto; direction: ltr; scrollbar-width: thin; }
+@media (max-width: 700px) { .journey .jwrap svg { min-width: 760px; } }
+
+/* الرئيسية */
+.home3 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 14px; align-items: start; }
+@media (max-width: 980px) { .home3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .home3 { grid-template-columns: 1fr; } }
+.lvname { font-family: var(--f-display); font-size: 18px; }
+.crit { display: grid; gap: 6px; }
+.crit div { background: var(--surface-2); border: 1px solid transparent; border-radius: 10px; padding: 6px 10px; font-size: 14px; }
+.crit div::before { content: '◇'; color: var(--path); margin-inline-end: 6px; }
+.cyc { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tile { background: var(--surface-2); border: 1px solid transparent; border-radius: 12px; padding: 10px 12px; min-width: 0; }
+.tile span { display: block; font-size: 12.5px; color: var(--ink-2); }
+.tile b { font-family: var(--f-display); font-size: 22px; font-variant-numeric: tabular-nums; }
+.tile small { color: var(--muted); font-size: 12px; margin-inline-start: 4px; }
+.tile .meter { margin-top: 6px; height: 5px; }
+.gauge .garc { stroke-dasharray: 100; animation: draw 1.3s cubic-bezier(.3,1,.5,1) both; }
+.needle { transform: rotate(var(--a)); transform-origin: 130px 130px; animation: needle 1.4s cubic-bezier(.3,1.35,.5,1) both; }
+@keyframes needle { from { transform: rotate(0deg); } }
+.gmark circle { transform-box: fill-box; transform-origin: center; transition: transform .25s; } .gauge:hover .gmark circle { transform: scale(1.35); }
+.goals { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.goal { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; background: var(--surface-2); border: 1px solid transparent; border-radius: 14px; padding: 12px 8px; font: inherit; color: inherit; }
+button.goal { cursor: pointer; }
+.goal .ring { width: 66px; height: 66px; }
+.goal .rg { animation: ringfill 1.1s .15s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes ringfill { from { stroke-dashoffset: var(--c); } }
+.goal .gt { font-weight: 600; font-size: 14px; line-height: 1.35; }
+.goal .gv { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.goal .gx { font-size: 11.5px; color: var(--path); }
+.goal.ok { background: var(--ok-soft); }
+
+/* السجل */
+.seg { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 3px; gap: 2px; flex-wrap: wrap; }
+.seg button { border: 0; background: transparent; padding: 7px 12px; border-radius: 9px; cursor: pointer; font-weight: 600; color: var(--ink-2); transition: background .2s, color .2s; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-selected="true"] { background: var(--surface); color: var(--accent); box-shadow: 0 2px 8px -4px color-mix(in srgb, var(--ink) 40%, transparent); }
+.cal .c { transition: transform .18s cubic-bezier(.3,1.4,.5,1), box-shadow .18s; font: inherit; color: inherit; padding: 0; }
+.cal .c:hover:not(.empty) { transform: scale(1.12); z-index: 2; box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--ink) 50%, transparent); }
+.cal .c.sel { outline: 2px solid var(--path); outline-offset: 1px; }
+.cal .c .fill { animation: fillup .6s cubic-bezier(.2,.8,.2,1) both; transform-origin: bottom; }
+@keyframes fillup { from { transform: scaleY(0); } }
+#dayDetail { min-height: 220px; }
+.exdots { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.xd { font-size: 11px; direction: ltr; padding: 2px 7px; border-radius: 7px; background: var(--surface-2); color: var(--muted); }
+.xd.y { background: var(--ok-soft); color: var(--ok); } .xd.n { background: var(--bad-soft); color: var(--bad); }
+.dnote { white-space: pre-wrap; margin: 10px 0 0; background: var(--surface-2); border-radius: 10px; padding: 8px 12px; font-size: 14px; }
+
+/* الخطة */
+.stepper { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; position: relative; margin-bottom: 14px; }
+.stepper::before { content: ''; position: absolute; top: 19px; inset-inline: 8%; height: 3px; background: var(--line); border-radius: 3px; }
+.stp { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; background: transparent; cursor: pointer; padding: 0 2px; color: var(--ink-2); font: inherit; }
+.stp .n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-family: var(--f-display); background: var(--surface); border: 2px solid var(--line); transition: transform .25s cubic-bezier(.3,1.5,.5,1), box-shadow .25s; }
+.stp .t { font-size: 12px; line-height: 1.35; text-align: center; }
+.stp:hover .n { transform: scale(1.12); }
+.stp.done .n { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.stp.now .n { border-color: var(--path); color: var(--path); box-shadow: 0 0 0 5px var(--path-soft); }
+.stp.sel .t { color: var(--ink); font-weight: 700; }
+.stp.sel .n { transform: scale(1.12); }
+.lvd { animation: rise .35s both; }
+.exgrid { align-items: start; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.exgrid.one { grid-template-columns: 1fr; }
+.exc { background: var(--surface); }
+.exn { display: block; font-size: 15px; }
+.exar { font-size: 13px; color: var(--ink-2); }
+.dose.sug { background: var(--path-soft); color: var(--path); }
+.exmore ol { margin: 6px 0 2px; }
+.exmore { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+.exc.open .exmore { max-height: 600px; }
+.oldph { border-top: 1px solid var(--line); padding: 10px 0; }
+.oldph:first-of-type { border-top: 0; padding-top: 0; }
+.oldph summary { cursor: pointer; display: flex; flex-direction: column; gap: 2px; list-style: none; }
+.oldph summary::-webkit-details-marker { display: none; }
+.oldph summary b::before { content: '▸ '; color: var(--muted); }
+.oldph[open] summary b::before { content: '▾ '; }
+.oldph[open] summary { margin-bottom: 10px; }
+.tl > div.hov { border-radius: 10px; padding: 4px 8px 12px; margin-inline-start: -8px; }
+.tl > div.hov::before { inset-inline-start: -12px; }
+details.more { margin-top: 8px; } details.more summary { cursor: pointer; color: var(--ink-2); font-size: 14px; }
+.thinking { display: flex; align-items: center; gap: 6px; color: var(--ink-2); padding: 10px 0; }
+.thinking span { width: 8px; height: 8px; border-radius: 50%; background: var(--path); animation: blink 1s infinite ease-in-out; }
+.thinking span:nth-child(2) { animation-delay: .15s; } .thinking span:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 100% { opacity: .2; transform: scale(.8); } 50% { opacity: 1; transform: scale(1); } }
+
+/* الإصابة */
+#kneeBox .ly { transition: opacity .25s, filter .25s; cursor: pointer; }
+#kneeBox svg.focus .ly:not(.on) { opacity: .18; }
+#kneeBox svg.focus .ly.on { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--path) 60%, transparent)); }
+.what div { border: 1px solid transparent; cursor: default; }
+.what div.lit { border-color: var(--path); background: var(--path-soft); }
+.map .me, .map .mn { transition: opacity .2s, stroke .2s; }
+.map .mn rect { transition: stroke-width .2s; } .map .mn { cursor: default; }
+.map.dim .me:not(.hl) { opacity: .12; } .map.dim .mn:not(.hl) { opacity: .35; }
+.map .me.hl { stroke: var(--accent); stroke-width: 2.4; } .map .mn.hl rect { stroke-width: 3; }
+.xr { grid-template-columns: 1fr; }
+.xr figure { border-radius: 12px; padding: 4px; border: 1px solid transparent; }
+.xr img { transition: transform .35s; } .xr figure:hover img { transform: scale(1.02); }
+.refsbox summary { cursor: pointer; list-style: none; } .refsbox summary::-webkit-details-marker { display: none; }
+.refsbox[open] summary { margin-bottom: 8px; }
+.scale button { transition: transform .15s; } .scale button:hover { transform: translateY(-2px); }
+.chk { transition: transform .2s cubic-bezier(.3,1.5,.5,1), background .2s; } .chk:hover { transform: scale(1.08); } .chk:active { transform: scale(.92); }
+.layer-toggles button { transition: background .2s, color .2s, transform .15s; } .layer-toggles button:hover { transform: translateY(-1px); }
+
+@media (max-width: 520px) {
+  .tabs button { font-size: 11.5px; } .stp .t { font-size: 10.5px; } .stp .n { width: 34px; height: 34px; } .stepper::before { top: 16px; }
+  .brand small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -208,8 +360,9 @@ dialog .df { padding: 10px 18px 16px; display: flex; gap: 8px; justify-content: 
     <div class="brand"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="var(--accent)"/><path d="M14 6c1 6 1.5 9 4.5 12.5" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round" fill="none"/><ellipse cx="21" cy="20" rx="4" ry="5" fill="var(--accent-ink)"/><path d="M21.5 25c.3 3.5 1 6 3.5 9" stroke="var(--path)" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
       <div><b>رُكبة</b><small>الطريق إلى السجدة</small></div></div>
     <span class="grow"></span>
-    <span id="mode" class="badge">جاري التحميل…</span>
+    <span id="mode" class="badge" hidden></span>
     <span id="save" class="badge" hidden></span>
+    <button class="iconbtn" id="gear" aria-label="الإعدادات" hidden></button>
   </div>
   <nav class="tabs" id="tabs" aria-label="الأقسام"></nav>
 </div></header>
@@ -241,9 +394,11 @@ const fMonth = s => { const p = s.split('-'); if (p.length === 1) return p[0]; r
 let toastT; function toast(m) { let t = $('.toast'); if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); document.body.append(t); } t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600); }
 const ls = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} }, del(k) { try { localStorage.removeItem(k); } catch {} } };
 
-/* ================= الحالة والمزامنة (نسخة GitHub) ================= */
-let D = null;               // كل البيانات
-let EDIT = true;            // صاحب المتابعة على جهازه؛ رابط الدكتور (?d=) للعرض فقط
+/* ================= الحالة والمزامنة ================= */
+// يشتغل بمكانين: GitHub Pages (حفظ على الجهاز + Gist) وداخل Claude (حفظ بالسحابة)
+let D = null;
+let EDIT = true;            // صاحب المتابعة؛ رابط الدكتور للعرض فقط
+let MODE = 'gh';            // gh | claude
 let DOC = null;             // رقم الـ Gist برابط الدكتور
 const CAP = { artifact: null, sample: null, downloads: { async save({ filename, data }) {
   const b = data instanceof Blob ? data : new Blob([data], { type: 'application/json' });
@@ -275,9 +430,10 @@ function importData(o) {
   return n;
 }
 function persist() { ls.set(STORE, JSON.stringify(D)); }
+const cloudOn = () => MODE === 'claude' ? !!CAP.artifact : Sync.enabled();
 function markDirty(kind) {
   D.updatedAt = Date.now(); if (kind === 'cfg') D.cfgAt = Date.now();
-  persist(); dirty = Sync.enabled(); saveState();
+  persist(); dirty = cloudOn(); saveState();
   if (dirty) { clearTimeout(saveTimer); saveTimer = setTimeout(saveCloud, 4000); }
 }
 const Sync = {
@@ -294,7 +450,19 @@ const Sync = {
   async read(j) { const f = j.files?.[GFILE]; if (!f) return null; return JSON.parse(f.truncated ? await (await fetch(f.raw_url, { cache: 'no-store' })).text() : f.content); }
 };
 async function saveCloud(rerender) {
-  if (!EDIT || !Sync.enabled() || saving) return;
+  if (!EDIT || saving) return;
+  if (MODE === 'claude') {
+    if (!CAP.artifact || !dirty) return;
+    saving = true; saveState();
+    try { await CAP.artifact.publish({ 'data.json': { content: JSON.stringify(D), contentType: 'application/json' } }); dirty = false; toastIfManual(); }
+    catch (e) {
+      if (['not_writer', 'not_granted', 'capability_disabled', 'consent_required'].includes(e?.code)) { CAP.artifact = null; dirty = false; toast('الحفظ بالسحابة غير متاح هنا. تغييراتك محفوظة على هذا الجهاز.'); }
+      else if (e?.code === 'rate_limited') { clearTimeout(saveTimer); saveTimer = setTimeout(saveCloud, 20000); }
+      else if (e?.code !== 'conflict') { clearTimeout(saveTimer); saveTimer = setTimeout(saveCloud, 8000 + Math.random() * 4000); }
+    } finally { saving = false; saveState(); }
+    return;
+  }
+  if (!Sync.enabled()) return;
   saving = true; saveState();
   try {
     const s = Sync.secrets();
@@ -311,14 +479,14 @@ async function saveCloud(rerender) {
   } catch (e) { manualSave = false; toast('فشل المزامنة: ' + e.message); clearTimeout(saveTimer); saveTimer = setTimeout(saveCloud, 60000); }
   finally { saving = false; saveState(); }
 }
-let manualSave = false; function toastIfManual() { if (manualSave) { toast('تمت المزامنة'); manualSave = false; } }
+let manualSave = false; function toastIfManual() { if (manualSave) { toast(MODE === 'claude' ? 'حُفظ بالسحابة' : 'تمت المزامنة'); manualSave = false; } }
 function saveState() {
   const el = $('#save'); if (!el) return;
   el.hidden = !EDIT;
-  if (!Sync.enabled()) { el.className = 'badge'; el.innerHTML = '<span class="dot"></span> محفوظ على هذا الجهاز'; }
-  else if (saving) { el.className = 'badge'; el.innerHTML = '<span class="dot"></span> جاري المزامنة'; }
-  else if (dirty) { el.className = 'badge warn'; el.innerHTML = '<span class="dot"></span> بانتظار المزامنة'; }
-  else { el.className = 'badge ok'; el.innerHTML = '<span class="dot"></span> متزامن'; }
+  if (!cloudOn()) { el.className = 'badge'; el.innerHTML = '<span class="dot"></span> على هذا الجهاز'; }
+  else if (saving) { el.className = 'badge'; el.innerHTML = '<span class="dot"></span> جاري الحفظ'; }
+  else if (dirty) { el.className = 'badge warn'; el.innerHTML = '<span class="dot"></span> بانتظار الحفظ'; }
+  else { el.className = 'badge ok'; el.innerHTML = '<span class="dot"></span> محفوظ'; }
 }
 addEventListener('pagehide', () => { if (D && EDIT) persist(); });
 
@@ -327,24 +495,36 @@ async function boot() {
   try { D = await (await fetch('data.json', { cache: 'no-store' })).json(); }
   catch (e) { $('#main').innerHTML = '<div class="skeleton">تعذر تحميل بيانات المتابعة. أعد فتح الصفحة.</div>'; return; }
   D.cfgAt = D.cfgAt || 1;
-  if (DOC) {
+  route.tab = ls.get('rukba.tab') || 'home';
+  if (window.claude?.use) {                       // داخل Claude
+    MODE = 'claude'; EDIT = false;
+    const st = ls.get(STORE); let local = null; if (st) { try { local = JSON.parse(st); } catch {} }
+    setMode(); renderTabs(); render();
+    const [art, usr, smp, dl] = await Promise.all(['artifact', 'user', 'sample', 'downloads'].map(n => window.claude.use(n).catch(() => null)));
+    CAP.artifact = art; CAP.sample = smp; CAP.downloads = dl;
+    let canEdit = false; try { canEdit = usr ? await usr.canEdit() : false; } catch {}
+    EDIT = !!(art && canEdit);
+    if (EDIT && local && mergeInto(D, local)) dirty = true;
+    setMode(); renderTabs(); render();
+    if (EDIT && dirty) { clearTimeout(saveTimer); saveTimer = setTimeout(saveCloud, 1500); }
+    return;
+  }
+  if (DOC) {                                      // رابط الدكتور على GitHub
     EDIT = false;
     try { const r = await Sync.read(await Sync.api('/gists/' + encodeURIComponent(DOC), {}, false)); if (r) mergeInto(D, r); }
     catch { toast('تعذر جلب آخر البيانات، المعروض نسخة سابقة'); }
-    route.tab = 'dash'; setMode(); renderTabs(); render(); return;
+    route.tab = 'home'; setMode(); renderTabs(); render(); return;
   }
   const st = ls.get(STORE);
   if (st) { try { mergeInto(D, JSON.parse(st)); } catch {} }
   else { const o = ls.get(OLD); if (o) { try { const n = importData(JSON.parse(o)); D.cfgAt = Date.now(); if (n) setTimeout(() => toast(`انقلت ${n} يوم من النسخة القديمة`), 800); } catch {} } }
   persist();
-  route.tab = ls.get('rukba.tab') || 'dash';
   setMode(); renderTabs(); render();
   if (Sync.enabled()) saveCloud(true);
 }
 function setMode() {
   const m = $('#mode');
-  m.className = 'badge ' + (EDIT ? 'acc' : 'path');
-  m.textContent = EDIT ? 'وضع المتابعة' : 'عرض التقدم';
+  m.hidden = EDIT; m.className = 'badge path'; m.textContent = 'عرض التقدم';
   saveState();
 }
 
@@ -434,25 +614,67 @@ function bindCharts(root) {
 }
 
 /* ================= التنقل ================= */
-const TABS = [['dash', 'الشاشة'], ['today', 'اليوم', true], ['table', 'الجدول'], ['plan', 'الخطة والمراحل'], ['goals', 'الأهداف'], ['injury', 'الإصابة'], ['reports', 'التقارير'], ['settings', 'الإعدادات', true]];
+const IC = {
+  home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
+  today: '<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M8.5 13.5l2.5 2.5 4.5-5"/>',
+  plan: '<path d="M4 20h5v-5h5v-5h5V4"/><circle cx="4" cy="20" r="1.4"/><circle cx="19" cy="4" r="1.4"/>',
+  log: '<path d="M3 20h18M6.5 20v-7M11 20V6M15.5 20v-9M20 20v-4"/>',
+  injury: '<path d="M8 3c.6 4.5 1.3 7 4 9.5"/><ellipse cx="13" cy="14.3" rx="2.6" ry="3.1"/><path d="M13.6 17.5c.3 1.6.9 2.6 2.4 3.5"/>',
+  gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>'
+};
+const ico = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+const TABS = [['home', 'الرئيسية'], ['today', 'اليوم', true], ['plan', 'الخطة'], ['log', 'السجل'], ['injury', 'الإصابة']];
 function route(tab, arg) { route.tab = tab; route.arg = arg; ls.set('rukba.tab', tab); renderTabs(); render(); scrollTo(0, 0); }
-function renderTabs() { $('#tabs').innerHTML = TABS.filter(t => !t[2] || EDIT).map(([k, l]) => `<button data-tab="${k}" ${route.tab === k ? 'aria-current="page"' : ''}>${l}</button>`).join(''); $$('#tabs button').forEach(b => b.onclick = () => route(b.dataset.tab)); }
+function renderTabs() {
+  $('#tabs').innerHTML = TABS.filter(t => !t[2] || EDIT).map(([k, l]) => `<button data-tab="${k}" ${route.tab === k ? 'aria-current="page"' : ''}>${ico(k)}<span>${l}</span></button>`).join('');
+  $$('#tabs button').forEach(b => b.onclick = () => route(b.dataset.tab));
+  const g = $('#gear'); g.hidden = !EDIT; g.innerHTML = ico('gear'); g.toggleAttribute('aria-current', route.tab === 'settings'); g.onclick = () => route('settings');
+}
 function render() {
   if (!D) return;
-  if (!EDIT && (route.tab === 'today' || route.tab === 'settings')) route.tab = 'dash';
+  if (!VIEWS[route.tab]) route.tab = 'home';
+  if (!EDIT && (route.tab === 'today' || route.tab === 'settings')) route.tab = 'home';
   for (const k in CH) delete CH[k];
-  const main = $('#main'); const V = VIEWS[route.tab] || VIEWS.dash;
-  main.innerHTML = (EDIT ? '' : `<div class="viewer-banner">هذا عرض للتقدم فقط. البيانات يسجلها ${esc(D.profile.name)}، ويشوفها المعالج هنا مباشرة.</div>`) + V.html(route.arg);
+  const main = $('#main'); const V = VIEWS[route.tab];
+  main.innerHTML = (EDIT ? '' : `<div class="viewer-banner">عرض للتقدم فقط. البيانات يسجلها ${esc(D.profile.name)} يومياً.</div>`) + V.html(route.arg);
   V.bind && V.bind(main, route.arg); bindCharts(main);
+  $$('[data-go]', main).forEach(b => b.onclick = () => route(b.dataset.go, b.dataset.arg));
 }
 function dialog(title, body, actions) {
   const dl = document.createElement('dialog'); dl.innerHTML = `<div class="dh">${esc(title)}</div><div class="db">${body}</div><div class="df"></div>`;
-  for (const a of actions) { const b = document.createElement('button'); b.className = 'btn ' + (a.cls || ''); b.textContent = a.label; b.onclick = async () => { const r = a.run ? await a.run(dl) : true; if (r !== false) { dl.close(); dl.remove(); } }; $('.df', dl).append(b); }
+  dl._set = acts => { const f = $('.df', dl); f.innerHTML = ''; for (const a of acts) { const b = document.createElement('button'); b.className = 'btn ' + (a.cls || ''); b.textContent = a.label; b.onclick = async () => { b.disabled = true; let r; try { r = a.run ? await a.run(dl) : true; } finally { b.disabled = false; } if (r !== false) { dl.close(); dl.remove(); } }; f.append(b); } };
+  dl._set(actions);
   document.body.append(dl); dl.showModal(); dl.addEventListener('cancel', () => setTimeout(() => dl.remove(), 50)); return dl;
 }
 const VIEWS = {};
 
-/* ================= الشاشة ================= */
+/* ================= Claude ================= */
+const AI = {
+  ok() { return !!(CAP.sample || Sync.secrets().apiKey); },
+  async text(prompt) {
+    if (CAP.sample) return (await CAP.sample(prompt, { modelTier: 'default' })).text;
+    const s = Sync.secrets(); if (!s.apiKey) { const e = new Error('no key'); e.code = 'not_granted'; throw e; }
+    const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'content-type': 'application/json', 'x-api-key': s.apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: s.model || 'claude-sonnet-5-5', max_tokens: 4000, messages: [{ role: 'user', content: prompt }] }) });
+    if (!r.ok) { const e = new Error('HTTP ' + r.status); e.code = r.status === 401 ? 'bad_key' : r.status === 429 ? 'rate_limited' : 'http'; throw e; }
+    return (await r.json()).content.map(c => c.text || '').join('');
+  },
+  async json(prompt) {
+    if (CAP.sample) return CAP.sample.json(prompt, { modelTier: 'default' });
+    const t = await AI.text(prompt); const m = t.match(/\{[\s\S]*\}/); return JSON.parse(m ? m[0] : t);
+  },
+  err(e) { return { not_granted: 'Claude غير مفعّل. فعّله من الإعدادات.', bad_key: 'مفتاح Claude غير صحيح.', rate_limited: 'طلبات كثيرة، انتظر دقيقة.' }[e?.code] || 'تعذر الاتصال بـ Claude.'; }
+};
+
+/* ================= الرئيسية ================= */
+const J_INFO = [
+  'كرة قدم، ومشي ساعة يومياً، وليك برس 360 باوند، ووزن 69 كغم.',
+  'بدا الألم، وظهر نتوء تحت الصابونة وقت الصلاة وصار يكبر.',
+  'ثلاث أجوبة: "ما بيك شي"، "خشونة"، وإبرة ورّمت الرجل.',
+  'تشرين الأول وقف حديد الرجل، تشرين الثاني الكرة، وشباط كل شي.',
+  'من الليلة التاسعة عشر صارت الصلاة على الكرسي، والثني ما يتجاوز 90°.',
+  '2 آب الرجل "تفلت"، 3 آب الأشعة، و10 آب بداية العلاج الحقيقي.'
+];
 function journeySVG() {
   const W = 1000, H = 230;
   const pts = [
@@ -471,62 +693,86 @@ function journeySVG() {
     const st = p.L ? levelStatus(p.L) : 'done';
     const fill = p.L ? (st === 'done' ? 'var(--accent)' : st === 'now' ? 'var(--path)' : 'var(--surface)') : col(p);
     const stroke = p.L && st === 'next' ? 'var(--muted)' : fill;
-    if (i === nowIdx) marks += `<circle class="pulse" cx="${x(i)}" cy="${y(i)}" r="9" fill="var(--path)"/>`;
-    marks += `<circle cx="${x(i)}" cy="${y(i)}" r="${i === nowIdx ? 8 : 6}" fill="${fill}" stroke="${stroke}" stroke-width="2"/>`;
     const up = i % 2 === 0; const ty = up ? y(i) - 18 : y(i) + 24;
-    marks += `<text class="lbl b" x="${x(i)}" y="${ty}" text-anchor="middle">${esc(p.t)}</text><text class="lbl" x="${x(i)}" y="${ty + (up ? -14 : 14)}" text-anchor="middle">${esc(p.s)}</text>`;
+    marks += `<g class="jp" data-j="${i}" tabindex="0" role="button" aria-label="${esc(p.t)}">${i === nowIdx ? `<circle class="pulse" cx="${x(i)}" cy="${y(i)}" r="9" fill="var(--path)"/>` : ''}<circle class="hit" cx="${x(i)}" cy="${y(i)}" r="22" fill="transparent"/><circle class="m" cx="${x(i)}" cy="${y(i)}" r="${i === nowIdx ? 8 : 6}" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+      <text class="lbl b" x="${x(i)}" y="${ty}" text-anchor="middle">${esc(p.t)}</text><text class="lbl" x="${x(i)}" y="${ty + (up ? -14 : 14)}" text-anchor="middle">${esc(p.s)}</text></g>`;
   });
-  marks += `<text class="lbl b" x="${x(n - 1)}" y="${y(n - 1) - 46}" text-anchor="middle" style="fill:var(--path)">السجدة</text>`;
-  return `<svg viewBox="0 0 ${W} ${H}" aria-label="الطريق من بداية الإصابة إلى السجدة"><path d="${d}" fill="none" stroke="var(--line)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/><path d="${dDone}" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" opacity=".55"/>${marks}</svg>`;
+  marks += `<text class="lbl b" x="${x(n - 1)}" y="${y(n - 1) - 16}" text-anchor="middle" style="fill:var(--path)">← السجدة</text>`;
+  journeySVG.pts = pts;
+  return `<svg viewBox="0 0 ${W} ${H}" aria-label="الطريق من بداية الإصابة إلى السجدة"><path d="${d}" fill="none" stroke="var(--line)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/><path class="jdone" d="${dDone}" pathLength="100" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" opacity=".55"/>${marks}</svg>`;
+}
+function bindJourney(root) {
+  const box = $('#jr', root); if (!box) return; const tip = $('.jtip', box), wrap = $('.jwrap', box);
+  const now = $('.jp .pulse', box); if (now && wrap.scrollWidth > wrap.clientWidth) requestAnimationFrame(() => { const r = now.getBoundingClientRect(), w = wrap.getBoundingClientRect(); wrap.scrollLeft += r.left - w.left - w.width * .6; });
+  wrap.addEventListener('scroll', () => { tip.hidden = true; });
+  const show = g => {
+    const i = +g.dataset.j, p = journeySVG.pts[i]; let h;
+    if (p.L) { const st = levelStatus(p.L); h = `<b>${esc(p.t)}</b> <span class="badge ${st === 'done' ? 'ok' : st === 'now' ? 'path' : ''}">${st === 'done' ? 'تم' : st === 'now' ? 'الآن' : 'قادم'}</span><div>${esc(p.L.desc)}</div><div class="muted">${p.L.criteria.map(esc).join(' · ')}</div>`; }
+    else h = `<b>${esc(p.t)}</b> <span class="muted">${esc(p.s)}</span><div>${esc(J_INFO[i])}</div>`;
+    tip.innerHTML = h; tip.hidden = false;
+    const r = box.getBoundingClientRect(), c = $('.m', g).getBoundingClientRect();
+    const left = Math.min(Math.max(c.left + c.width / 2 - r.left, 130), r.width - 130);
+    tip.style.left = left + 'px'; tip.style.top = (c.top - r.top + (c.top - r.top > r.height / 2 ? -12 : c.height + 12)) + 'px';
+    tip.classList.toggle('up', c.top - r.top > r.height / 2);
+    $$('.jp', box).forEach(x => x.classList.toggle('on', x === g));
+  };
+  $$('.jp', box).forEach(g => {
+    g.addEventListener('pointerenter', () => show(g)); g.addEventListener('focus', () => show(g));
+    g.addEventListener('click', () => { const p = journeySVG.pts[+g.dataset.j]; if (p.L) { VIEWS.plan.lv = p.L.id; route('plan'); } else show(g); });
+  });
+  box.addEventListener('pointerleave', () => { tip.hidden = true; $$('.jp', box).forEach(x => x.classList.remove('on')); });
 }
 function gaugeSVG(v, goal) {
-  const cx = 130, cy = 130, R = 100, a = deg => { const r = (180 - deg * (180 / 160)) * Math.PI / 180; return [cx + R * Math.cos(r), cy - R * Math.sin(r)]; };
-  const arc = (d0, d1, c, w) => { const [x0, y0] = a(d0), [x1, y1] = a(d1); return `<path d="M${x0},${y0} A${R},${R} 0 ${d1 - d0 > 160 * .5 * (160 / 180) * 2 ? 1 : 0} 1 ${x1},${y1}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`; };
-  const [nx, ny] = a(Math.min(160, v)), [gx, gy] = a(goal);
-  let ticks = ''; for (const t of [0, 45, 90, 135, 160]) { const [tx, ty] = a(t); const [ix, iy] = [cx + (tx - cx) * 1.16, cy + (ty - cy) * 1.16]; ticks += `<text x="${ix}" y="${iy + 4}" text-anchor="middle" font-size="11" fill="var(--muted)">${t}°</text>`; }
-  return `<svg viewBox="0 0 260 160" aria-label="زاوية ثني الركبة">${arc(0, 160, 'var(--accent-soft)', 14)}${arc(0, Math.min(160, v), 'var(--accent)', 14)}
-    <line x1="${cx}" y1="${cy}" x2="${gx}" y2="${gy}" stroke="var(--path)" stroke-width="2" stroke-dasharray="4 3"/><circle cx="${gx}" cy="${gy}" r="6" fill="var(--path)"/>
-    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="6" fill="var(--ink)"/>${ticks}
+  const cx = 130, cy = 130, R = 100, a = deg => { const r = (180 - deg * 1.125) * Math.PI / 180; return [cx + R * Math.cos(r), cy - R * Math.sin(r)]; };
+  const arc = (d0, d1, c, w, cls = '') => { const [x0, y0] = a(d0), [x1, y1] = a(d1); return `<path class="${cls}" pathLength="100" d="M${x0},${y0} A${R},${R} 0 0 1 ${x1},${y1}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`; };
+  const [gx, gy] = a(goal), vv = Math.min(160, v);
+  let ticks = ''; for (const t of [0, 45, 90, 135, 160]) { const [tx, ty] = a(t); ticks += `<text x="${cx + (tx - cx) * 1.16}" y="${cy + (ty - cy) * 1.16 + 4}" text-anchor="middle" font-size="11" fill="var(--muted)">${t}°</text>`; }
+  return `<svg viewBox="0 0 260 160" aria-label="زاوية ثني الركبة ${v} من ${goal}">${arc(0, 160, 'var(--accent-soft)', 14)}${arc(0, vv, 'var(--accent)', 14, 'garc')}
+    <g class="gmark"><title>هدف السجود ${goal}°</title><line x1="${cx}" y1="${cy}" x2="${gx}" y2="${gy}" stroke="var(--path)" stroke-width="2" stroke-dasharray="4 3"/><circle cx="${gx}" cy="${gy}" r="7" fill="var(--path)"/></g>
+    <g class="needle" style="--a:${vv * 1.125}deg"><line x1="${cx}" y1="${cy}" x2="${cx - R + 18}" y2="${cy}" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/></g><circle cx="${cx}" cy="${cy}" r="7" fill="var(--ink)"/>${ticks}
     <text x="${cx}" y="${cy + 26}" text-anchor="middle" font-size="22" font-weight="700" fill="var(--ink)">${v}°</text></svg>`;
 }
-VIEWS.dash = {
+function ring(p, col) {
+  const R = 25, C = 2 * Math.PI * R, off = C * (1 - Math.max(0, Math.min(1, p)));
+  return `<svg viewBox="0 0 64 64" class="ring" aria-hidden="true"><circle cx="32" cy="32" r="${R}" stroke="var(--accent-soft)" stroke-width="7" fill="none"/><circle class="rg" cx="32" cy="32" r="${R}" stroke="${col}" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" style="stroke-dashoffset:${off.toFixed(1)};--c:${C.toFixed(1)}" transform="rotate(-90 32 32)"/><text x="32" y="36.5" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">${r0(p * 100)}%</text></svg>`;
+}
+function goalCard(g) {
+  const pr = goalProgress(g), ok = pr.p >= 1, man = g.metric === 'manual', click = EDIT && man;
+  return `<${click ? 'button' : 'div'} class="goal hov ${ok ? 'ok' : ''}" ${click ? `data-gd="${g.id}" title="اضغط لما يتحقق"` : ''}>${ring(pr.p, ok ? 'var(--ok)' : man ? 'var(--path)' : 'var(--accent)')}<span class="gt">${esc(g.title)}</span><span class="gv">${esc(pr.label)}</span>${click ? `<span class="gx">${ok ? 'تحقق ✓' : 'اضغط لما يتحقق'}</span>` : ''}</${click ? 'button' : 'div'}>`;
+}
+VIEWS.home = {
   html() {
-    const t = today(), p = D.profile, ph = curPhase(), cy = cycle(), L = D.levels.find(l => l.id === ph?.level);
-    const w7 = windowStats(range(addDays(t, -6), t)), wc = windowStats(range(cy.start, t < cy.end ? t : cy.end));
-    const w = curWeight(), fl = curFlex(), streak = painFreeStreak(), st = dayStats(t);
-    const goalsDone = D.goals.filter(g => goalProgress(g).p >= 1).length;
-    const daysIn = diffDays(p.startDate, t) + 1;
-    const last30 = range(addDays(t, -29), t);
-    const unlogged = cy.len && range(cy.start, t < cy.end ? t : cy.end).filter(d => dayStats(d).session === 'nodata').length;
+    const t = today(), p = D.profile, ph = curPhase(), cy = cycle(), L = D.levels.find(l => l.id === ph?.level), Li = D.levels.indexOf(L);
+    const wc = windowStats(range(cy.start, t < cy.end ? t : cy.end)), st = dayStats(t), fl = curFlex();
+    const daysIn = diffDays(p.startDate, t) + 1, goals = D.goals.filter(g => g.metric !== 'flexion'), done = goals.filter(g => goalProgress(g).p >= 1).length;
+    const tile = (l, v, sub, col, pc) => `<div class="tile hov"><span>${l}</span><b style="${col ? 'color:' + col : ''}">${v}</b>${sub ? `<small>${sub}</small>` : ''}${pc != null ? `<div class="meter"><i style="width:${Math.min(100, pc * 100)}%"></i></div>` : ''}</div>`;
     return `
-    <div class="head"><div><h1>اليوم ${daysIn} من العلاج</h1><p>${esc(ph?.name || '')} · حد الألم <b class="num">${ph?.painLimit ?? 0}</b> من 10</p></div>
+    <div class="head"><div><h1>اليوم ${daysIn} من العلاج</h1><p>${esc(ph?.name || '')} · حد الألم <b class="num">${ph?.painLimit ?? 0}</b>/10</p></div>
       ${EDIT ? `<button class="btn primary" data-go="today">سجّل اليوم</button>` : ''}</div>
-    <section class="card journey">${journeySVG()}</section>
-    <div class="grid g4" style="margin-top:14px">
-      <div class="card kpi"><div class="l">الدورة الحالية بين استشارتين</div><div class="v">${cy.day}<small> من ${cy.len} يوم</small></div><div class="d">التزام ${wc.adh == null ? '—' : r0(wc.adh * 100) + '%'}${unlogged ? ` · ${unlogged} يوم بدون تسجيل` : ''}</div><div class="meter"><i style="width:${Math.min(100, cy.day / cy.len * 100)}%"></i></div></div>
-      <div class="card kpi"><div class="l">أيام متتالية بدون ألم</div><div class="v" style="color:${streak ? 'var(--ok)' : 'var(--ink)'}">${streak}<small> يوم</small></div><div class="d">أعلى ألم آخر 7 أيام: ${w7.painMax < 0 ? '—' : w7.painMax + '/10'}</div></div>
-      <div class="card kpi"><div class="l">معدل الخطوات (7 أيام)</div><div class="v">${fmt(w7.steps)}</div><div class="d">هدف المرحلة ${fmt(ph?.stepTarget)}</div><div class="meter"><i style="width:${Math.min(100, (w7.steps || 0) / (ph?.stepTarget || 1) * 100)}%"></i></div></div>
-      <div class="card kpi"><div class="l">الوزن</div><div class="v">${fmt(w, 1)}<small> كغم</small></div><div class="d">البداية ${p.startWeight} · الهدف ${p.goalWeight}</div><div class="meter"><i style="width:${Math.max(0, Math.min(100, (p.startWeight - w) / (p.startWeight - p.goalWeight) * 100))}%"></i></div></div>
-    </div>
-    <div class="grid g3" style="margin-top:14px;align-items:start">
-      <section class="card gauge"><h2 style="align-self:stretch">زاوية ثني الركبة <span class="badge path">هدف السجود ${p.flexionGoal}°</span></h2>${gaugeSVG(fl, p.flexionGoal)}<p class="muted" style="text-align:center;margin:4px 0 0">${series('flexion').length ? 'آخر قياس مسجل' : 'آخر قيمة معروفة: ما تنثني أكثر من 90°. سجّل القياس من صفحة اليوم.'}</p></section>
-      <section class="card"><h2>المستوى الحالي <span class="badge path">${D.levels.indexOf(L) + 1} من ${D.levels.length}</span></h2>
-        <b style="font-family:var(--f-display);font-size:18px">${esc(L?.name || '')}</b><p class="sub" style="margin:4px 0 10px">${esc(L?.desc || '')}</p>
-        <div class="stack" style="gap:6px">${(L?.criteria || []).map(c => `<div class="row" style="gap:8px"><span class="badge">معيار</span><span>${esc(c)}</span></div>`).join('')}</div></section>
+    <section class="card journey" id="jr"><div class="jwrap">${journeySVG()}</div><div class="jtip" hidden></div><p class="muted jhint">مرّر أو اضغط على أي نقطة. نقاط المستويات تفتح الخطة.</p></section>
+    <div class="grid home3">
+      <section class="card"><h2>المستوى ${Li + 1} من ${D.levels.length} <span class="badge path">الآن</span></h2>
+        <b class="lvname">${esc(L?.name || '')}</b><p class="sub" style="margin:2px 0 10px">${esc(L?.desc || '')}</p>
+        <div class="crit">${(L?.criteria || []).map(c => `<div class="hov">${esc(c)}</div>`).join('')}</div>
+        <div class="cyc"><div class="row" style="justify-content:space-between"><span class="muted">الدورة بين الاستشارتين</span><b class="num">${cy.day} من ${cy.len}</b></div><div class="meter"><i style="width:${Math.min(100, cy.day / cy.len * 100)}%"></i></div>
+          <div class="muted">التزام الدورة ${wc.adh == null ? '—' : r0(wc.adh * 100) + '%'}${p.nextConsult ? ` · الاستشارة القادمة ${fD(p.nextConsult)}` : ''}</div></div></section>
+      <section class="card gauge hov"><h2 style="align-self:stretch">زاوية الثني <span class="badge path">السجود ${p.flexionGoal}°</span></h2>${gaugeSVG(fl, p.flexionGoal)}
+        <p class="muted" style="text-align:center;margin:0">باقي <b class="num">${Math.max(0, p.flexionGoal - fl)}°</b> للسجدة${series('flexion').length ? '' : ' · سجّل القياس من صفحة اليوم'}</p></section>
       <section class="card"><h2>اليوم ${EDIT ? `<button class="btn sm" data-go="today">فتح</button>` : ''}</h2>
-        <div class="stack" style="gap:6px">
-          <div class="row"><span class="badge ${st.done === st.planned && st.planned ? 'ok' : ''}">التمارين ${st.done}/${st.planned}</span><span class="badge">خطوات ${fmt(st.log?.steps)}</span></div>
-          <div class="row"><span class="badge ${painCls(st.painMax, st.limit)}">ألم التمارين ${st.painMax ?? '—'}</span><span class="badge ${painCls(st.painMorning, st.limit)}">ألم الصبح ${st.painMorning ?? '—'}</span></div>
-          <div class="muted">الأهداف المتحققة: ${goalsDone} من ${D.goals.length}${p.nextConsult ? ` · الاستشارة القادمة ${fD(p.nextConsult)}` : ''}</div>
-        </div></section>
+        <div class="tiles">${tile('التمارين', `${st.done}/${st.planned}`, '', st.planned && st.done === st.planned ? 'var(--ok)' : '', st.planned ? st.done / st.planned : 0)}
+          ${tile('الخطوات', fmt(st.log?.steps), 'من ' + fmt(ph?.stepTarget), '', (st.log?.steps || 0) / (ph?.stepTarget || 1))}
+          ${tile('ألم التمارين', st.painMax ?? '—', 'الحد ' + st.limit, painCol(st.painMax, st.limit))}
+          ${tile('ألم الصبح', st.painMorning ?? '—', 'الحد ' + st.limit, painCol(st.painMorning, st.limit))}</div></section>
     </div>
-    <div class="grid g2" style="margin-top:14px">
-      <section class="card"><h2>الخطوات — آخر 30 يوم</h2>${chart({ type: 'bar', data: last30.map(d => ({ x: d, y: D.logs[d]?.steps ?? null })), refs: [{ y: ph?.stepTarget || 7000, label: fmt(ph?.stepTarget || 7000) }], label: 'الخطوات', tip: d => d.y == null ? fD(d.x) + ': غير مسجل' : `${wd(d.x)} ${fD(d.x)}<br><b>${fmt(d.y)}</b> خطوة` })}</section>
-      <section class="card"><h2>الألم — آخر 30 يوم <span class="legend" style="margin:0"><span><i style="background:var(--series-1)"></i>تمارين</span><span><i style="background:var(--series-2)"></i>صبح</span></span></h2>
-        ${chart({ type: 'line', data: last30.map(d => { const s = dayStats(d); return { x: d, y: s.painMax, m: s.painMorning }; }), series: [{ key: 'y', color: 'var(--series-1)' }, { key: 'm', color: 'var(--series-2)' }], yMin: 0, yMax: 10, ticks: [0, 2, 4, 6, 8, 10], refs: [{ y: ph?.painLimit ?? 0, label: 'الحد', color: 'var(--ok)' }], label: 'الألم', tip: d => `${fD(d.x)}<br>تمارين ${d.y ?? '—'} · صبح ${d.m ?? '—'}` })}</section>
-    </div>`;
+    <section class="card" style="margin-top:14px"><h2>الأهداف <span class="row"><span class="badge ${done ? 'ok' : ''}">${done} من ${goals.length}</span>${EDIT ? '<button class="btn sm" id="addG">+ هدف</button>' : ''}</span></h2>
+      <div class="goals">${goals.map(goalCard).join('')}</div></section>`;
   },
-  bind(root) { $$('[data-go]', root).forEach(b => b.onclick = () => route(b.dataset.go)); }
+  bind(root) {
+    bindJourney(root);
+    $$('[data-gd]', root).forEach(c => c.onclick = () => { const g = D.goals.find(x => x.id === c.dataset.gd); g.done = !g.done; g.doneAt = g.done ? today() : null; markDirty('cfg'); render(); if (g.done) toast('مبروك! تحقق: ' + g.title); });
+    const ag = $('#addG', root); if (ag) ag.onclick = () => dialog('هدف جديد', `<label class="f">الهدف<input type="text" id="gT"></label><label class="f" style="margin-top:8px">النوع<select id="gM"><option value="manual">يدوي (أأشّر عليه لما يتحقق)</option><option value="steps7">معدل الخطوات</option><option value="weight">الوزن</option><option value="painFree14">أيام بدون ألم</option><option value="adherence14">الالتزام %</option></select></label><label class="f" style="margin-top:8px">القيمة المطلوبة<input type="number" id="gV" value="1"></label>`,
+      [{ label: 'إلغاء' }, { label: 'إضافة', cls: 'primary', run: dl => { const t = $('#gT', dl).value.trim(); if (!t) return false; D.goals.push({ id: uid('g'), title: t, metric: $('#gM', dl).value, target: num($('#gV', dl).value) || 1, done: false }); markDirty('cfg'); render(); } }]);
+  }
 };
 
 /* ================= اليوم ================= */
@@ -574,138 +820,203 @@ VIEWS.today = {
   }
 };
 
-/* ================= الجدول ================= */
-VIEWS.table = {
-  html(arg) {
-    const t = today(), months = []; let m0 = (arg || t).slice(0, 7);
-    const first = phasesSorted()[0]?.start.slice(0, 7) || m0; for (let m = first; m <= t.slice(0, 7); ) { months.push(m); const [y, mm] = m.split('-').map(Number); m = mm === 12 ? `${y + 1}-01` : `${y}-${pad(mm + 1)}`; }
-    if (!months.includes(m0)) m0 = months.at(-1);
-    const [Y, M] = m0.split('-').map(Number), firstDay = new Date(Y, M - 1, 1), nd = new Date(Y, M, 0).getDate(), lead = (firstDay.getDay() + 1) % 7; // السبت أول الأسبوع
-    const cells = [...Array(lead).fill(null), ...Array.from({ length: nd }, (_, i) => `${m0}-${pad(i + 1)}`)];
-    const ph = curPhase(), cy = cycle(), days = range(cy.start, cy.end), exs = activeEx(ph);
-    return `
-    <div class="head"><div><h1>جدول الأيام</h1><p>كل يوم ملوّن حسب نسبة إنجاز التمارين، والنقطة لون الألم.</p></div>
-      <select id="mPick" style="width:auto">${months.map(m => `<option value="${m}" ${m === m0 ? 'selected' : ''}>${fMonth(m)}</option>`).join('')}</select></div>
-    <div class="grid g2" style="align-items:start">
-      <section class="card"><h2>${fMonth(m0)}</h2>
-        <div class="cal">${['سبت', 'أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة'].map(x => `<div class="dh">${x}</div>`).join('')}
-        ${cells.map(d => { if (!d) return '<div class="c empty"></div>'; const s = dayStats(d), pm = Math.max(s.painMax ?? -1, s.painMorning ?? -1); return `<button class="c ${s.pct >= .5 ? 'full' : ''} ${d === t ? 'today' : ''} ${d > t || !s.ph ? 'out' : ''}" data-day="${d}" title="${fD(d)}">${s.session !== 'nodata' ? `<div class="fill" style="height:${r0((s.pct || 0) * 100)}%"></div>` : ''}<span>${parse(d).getDate()}</span>${pm >= 0 ? `<i style="background:${painCol(pm, s.limit)}"></i>` : ''}</button>`; }).join('')}</div>
-        <div class="legend"><span><i style="background:var(--accent)"></i>إنجاز التمارين</span><span><i style="background:var(--ok);border-radius:50%"></i>ألم ضمن الحد</span><span><i style="background:var(--bad);border-radius:50%"></i>فوق الحد</span></div></section>
-      <section class="card"><h2>الدورة الحالية <span class="badge">${fD(cy.start)} — ${fD(cy.end)}</span></h2>
-        <div class="t-wrap"><table class="t"><thead><tr><th class="l">اليوم</th>${exs.map(e => `<th title="${esc(e.name)}" dir="ltr">${esc(e.short)}</th>`).join('')}<th>ألم</th><th>صبح</th><th>خطوات</th></tr></thead><tbody>
-        ${days.map(d => { const s = dayStats(d); return `<tr><td class="l">${wd(d)} ${fS(d)}</td>${exs.map(e => { const v = s.log?.ex?.[e.id]?.d; return v === true ? '<td class="c-done">✓</td>' : v === false ? '<td class="c-skip">✕</td>' : '<td class="c-na">–</td>'; }).join('')}<td style="color:${painCol(s.painMax, s.limit)}">${s.painMax ?? '–'}</td><td style="color:${painCol(s.painMorning, s.limit)}">${s.painMorning ?? '–'}</td><td class="num">${s.log?.steps != null ? fmt(s.log.steps) : '–'}</td></tr>`; }).join('')}
-        </tbody></table></div></section></div>
-    <section class="card" id="dayDetail" style="margin-top:14px" hidden></section>`;
+
+
+/* ================= السجل والتقارير ================= */
+function dayDetail(d) {
+  const s = dayStats(d);
+  return `<h2>${wd(d)} ${fD(d, { day: 'numeric', month: 'long' })} ${EDIT ? `<button class="btn sm" data-go="today" data-arg="${d}">تعديل</button>` : ''}</h2>
+    ${s.ph ? `<div class="tiles">${[['التمارين', `${s.done}/${s.planned}`], ['الخطوات', fmt(s.log?.steps)], ['ألم التمارين', s.painMax ?? '—', painCol(s.painMax, s.limit)], ['ألم الصبح', s.painMorning ?? '—', painCol(s.painMorning, s.limit)]].map(([l, v, c]) => `<div class="tile"><span>${l}</span><b style="${c ? 'color:' + c : ''}">${v}</b></div>`).join('')}</div>
+    <div class="exdots">${activeEx(s.ph).map(e => { const v = s.log?.ex?.[e.id]; return `<span class="xd ${v?.d === true ? 'y' : v?.d === false ? 'n' : ''}" title="${esc(e.name)}">${esc(e.short || e.name.slice(0, 3))}</span>`; }).join('')}</div>` : '<p class="muted">قبل بداية العلاج.</p>'}
+    ${s.log?.notes ? `<p dir="auto" class="dnote">${esc(s.log.notes)}</p>` : '<p class="muted" style="margin:6px 0 0">لا توجد ملاحظات.</p>'}`;
+}
+function calHtml() {
+  const V = VIEWS.log, t = today(), months = [];
+  const first = phasesSorted()[0]?.start.slice(0, 7) || t.slice(0, 7); for (let m = first; m <= t.slice(0, 7);) { months.push(m); const [y, mm] = m.split('-').map(Number); m = mm === 12 ? `${y + 1}-01` : `${y}-${pad(mm + 1)}`; }
+  if (!months.includes(V.month)) V.month = months.at(-1);
+  const m0 = V.month, mi = months.indexOf(m0);
+  const [Y, M] = m0.split('-').map(Number), nd = new Date(Y, M, 0).getDate(), lead = (new Date(Y, M - 1, 1).getDay() + 1) % 7;
+  const cells = [...Array(lead).fill(null), ...Array.from({ length: nd }, (_, i) => `${m0}-${pad(i + 1)}`)];
+  const ph = curPhase(), last30 = range(addDays(t, -29), t), ws = series('weight');
+  if (!V.day) V.day = t;
+  return `<div class="grid g2" style="align-items:start">
+    <section class="card"><h2><span class="row" style="gap:4px"><button class="btn sm" data-mo="${months[mi + 1] || ''}" ${mi < months.length - 1 ? '' : 'disabled'} aria-label="الشهر التالي">›</button>${fMonth(m0)}<button class="btn sm" data-mo="${months[mi - 1] || ''}" ${mi > 0 ? '' : 'disabled'} aria-label="الشهر السابق">‹</button></span></h2>
+      <div class="cal">${['سبت', 'أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة'].map(x => `<div class="dh">${x}</div>`).join('')}
+      ${cells.map(d => { if (!d) return '<div class="c empty"></div>'; const s = dayStats(d), pm = Math.max(s.painMax ?? -1, s.painMorning ?? -1); return `<button class="c ${s.pct >= .5 ? 'full' : ''} ${d === t ? 'today' : ''} ${d === V.day ? 'sel' : ''} ${d > t || !s.ph ? 'out' : ''}" data-day="${d}" aria-label="${fD(d)}">${s.session !== 'nodata' ? `<div class="fill" style="height:${r0((s.pct || 0) * 100)}%"></div>` : ''}<span>${parse(d).getDate()}</span>${pm >= 0 ? `<i style="background:${painCol(pm, s.limit)}"></i>` : ''}</button>`; }).join('')}</div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>إنجاز التمارين</span><span><i style="background:var(--ok);border-radius:50%"></i>ألم ضمن الحد</span><span><i style="background:var(--bad);border-radius:50%"></i>فوق الحد</span></div></section>
+    <section class="card" id="dayDetail">${dayDetail(V.day)}</section></div>
+  <div class="grid g2" style="margin-top:14px">
+    <section class="card"><h2>الخطوات · 30 يوم</h2>${chart({ type: 'bar', data: last30.map(d => ({ x: d, y: D.logs[d]?.steps ?? null })), refs: [{ y: ph?.stepTarget || 7000, label: fmt(ph?.stepTarget || 7000) }], label: 'الخطوات', tip: d => d.y == null ? fD(d.x) + ': غير مسجل' : `${wd(d.x)} ${fD(d.x)}<br><b>${fmt(d.y)}</b> خطوة` })}</section>
+    <section class="card"><h2>الألم · 30 يوم <span class="legend" style="margin:0"><span><i style="background:var(--series-1)"></i>تمارين</span><span><i style="background:var(--series-2)"></i>صبح</span></span></h2>
+      ${chart({ type: 'line', data: last30.map(d => { const s = dayStats(d); return { x: d, y: s.painMax, m: s.painMorning }; }), series: [{ key: 'y', color: 'var(--series-1)' }, { key: 'm', color: 'var(--series-2)' }], yMin: 0, yMax: 10, ticks: [0, 2, 4, 6, 8, 10], refs: [{ y: ph?.painLimit ?? 0, label: 'الحد', color: 'var(--ok)' }], label: 'الألم', tip: d => `${fD(d.x)}<br>تمارين ${d.y ?? '—'} · صبح ${d.m ?? '—'}` })}</section>
+  </div>
+  <section class="card" style="margin-top:14px"><h2>الوزن <span class="badge">الهدف ${D.profile.goalWeight} كغم</span></h2>${ws.length > 1 ? chart({ type: 'line', h: 170, data: ws, series: [{ key: 'y', color: 'var(--series-3)', area: true }], connect: true, label: 'الوزن', tip: d => `${fD(d.x)}<br><b>${fmt(d.y, 1)}</b> كغم` }) : `<p class="muted" style="margin:0">${ws.length ? `آخر وزن ${fmt(ws[0].y, 1)} كغم. ` : ''}سجّل الوزن من صفحة اليوم حتى يطلع المنحنى.</p>`}</section>`;
+}
+VIEWS.log = {
+  sub: 'cal', month: null, day: null, from: null, to: null,
+  html() {
+    const V = VIEWS.log;
+    const seg = [['cal', 'التقويم'], ['consult', 'تقرير الاستشارة'], ['journey', 'تقرير الرحلة']];
+    return `<div class="head"><div><h1>السجل</h1><p>${V.sub === 'cal' ? 'مرّر على أي يوم حتى تشوف تفاصيله.' : V.sub === 'consult' ? 'تقرير كل دورة للدكتور.' : 'التقرير الكامل من البداية، ويصير النهائي عند التعافي.'}</p></div>
+      <div class="seg" role="tablist">${seg.map(([k, l]) => `<button role="tab" data-sub="${k}" aria-selected="${V.sub === k}">${l}</button>`).join('')}</div></div>
+    ${V.sub === 'cal' ? calHtml() : reportsHtml()}`;
   },
   bind(root) {
-    $('#mPick', root).onchange = e => route('table', e.target.value + '-01');
-    $$('[data-day]', root).forEach(b => b.onclick = () => {
-      const d = b.dataset.day, s = dayStats(d), box = $('#dayDetail', root); box.hidden = false;
-      box.innerHTML = `<h2>${wd(d)} ${fD(d, { day: 'numeric', month: 'long', year: 'numeric' })} ${EDIT ? `<button class="btn sm" id="editDay">تعديل اليوم</button>` : ''}</h2>
-        ${s.ph ? `<div class="row" style="margin-bottom:8px"><span class="badge acc">${esc(s.ph.name.split('—')[0])}</span><span class="badge">تمارين ${s.done}/${s.planned}</span><span class="badge ${painCls(s.painMax, s.limit)}">ألم ${s.painMax ?? '—'}</span><span class="badge ${painCls(s.painMorning, s.limit)}">صبح ${s.painMorning ?? '—'}</span><span class="badge">خطوات ${fmt(s.log?.steps)}</span></div>` : ''}
-        ${s.log?.notes ? `<p dir="auto" style="white-space:pre-wrap;margin:0">${esc(s.log.notes)}</p>` : '<p class="muted">لا توجد ملاحظات.</p>'}`;
-      const ed = $('#editDay', box); if (ed) ed.onclick = () => route('today', d);
-      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const V = VIEWS.log;
+    $$('[data-sub]', root).forEach(b => b.onclick = () => { V.sub = b.dataset.sub; render(); });
+    if (V.sub !== 'cal') return bindReports(root);
+    $$('[data-mo]', root).forEach(b => b.onclick = () => { if (b.dataset.mo) { V.month = b.dataset.mo; render(); } });
+    const box = $('#dayDetail', root);
+    const show = (d, pin) => { if (pin) V.day = d; box.innerHTML = dayDetail(d); $$('[data-go]', box).forEach(b => b.onclick = () => route(b.dataset.go, b.dataset.arg)); };
+    $$('[data-day]', root).forEach(b => {
+      b.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') show(b.dataset.day); });
+      b.onclick = () => { $$('.cal .sel', root).forEach(x => x.classList.remove('sel')); b.classList.add('sel'); show(b.dataset.day, true); if (innerWidth < 620) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
     });
+    $('.cal', root).addEventListener('pointerleave', () => show(V.day));
   }
 };
 
-/* ================= الخطة والمراحل ================= */
+/* ================= الخطة ================= */
+function exCard(ph, e) {
+  const src = e.howtoSource === 'doctor' ? 'من تعليمات الدكتور' : e.howtoSource === 'ai' ? 'رتّبها Claude: الفيديو وتعليمات الدكتور هي المرجع' : 'وصف عام: الفيديو وتعليمات الدكتور هي المرجع';
+  return `<article class="exc hov" data-x="${ph.id}|${e.id}">
+    <div class="row" style="justify-content:space-between;align-items:start"><div style="min-width:0"><b dir="ltr" class="exn">${esc(e.name)}</b>${e.ar ? `<div class="exar">${esc(e.ar)}</div>` : ''}</div><span class="dose num ${e.doseSuggested ? 'sug' : ''}" ${e.doseSuggested ? 'title="جرعة مقترحة، أكّدها مع الدكتور"' : ''}>${esc(e.dose || '—')}${e.doseSuggested ? ' *' : ''}</span></div>
+    ${e.goal ? `<div class="muted">${esc(e.goal)}</div>` : ''}${e.muscle ? `<div class="row" style="margin-top:4px">${e.muscle.split(/[،,]/).map(m => `<span class="badge">${esc(m.trim())}</span>`).join('')}</div>` : ''}
+    ${e.howto?.length ? `<div class="exmore"><ol>${e.howto.map(s => `<li>${esc(s)}</li>`).join('')}</ol><div class="muted" style="font-size:12px">${src}</div></div>` : ''}
+    <div class="row" style="margin-top:8px">${e.howto?.length ? '<button class="btn sm" data-more>طريقة الأداء</button>' : ''}${e.video ? `<a class="btn sm" href="${esc(e.video)}" target="_blank" rel="noopener">▶ الفيديو</a>` : ''}${EDIT ? `<button class="btn sm ghost" data-eex="${ph.id}|${e.id}">تعديل</button>` : ''}</div></article>`;
+}
+function phaseBlock(ph, cur) {
+  return `<div class="row" style="justify-content:space-between;margin-bottom:10px"><div class="row"><span class="badge">${fD(ph.start)} ← ${ph.end ? fD(ph.end) : 'مستمرة'}</span><span class="badge ${ph.painLimit ? 'warn' : 'ok'}">حد الألم ${ph.painLimit}</span><span class="badge">${fmt(ph.stepTarget)} خطوة</span></div>${EDIT ? `<button class="btn sm ghost" data-eph="${ph.id}">تعديل المرحلة</button>` : ''}</div>
+    ${ph.goal ? `<div class="note" style="margin-bottom:10px">${esc(ph.goal)}</div>` : ''}
+    <div class="exgrid">${ph.exercises.filter(e => e.active !== false).map(e => exCard(ph, e)).join('')}</div>`;
+}
 VIEWS.plan = {
+  lv: null,
   html() {
-    const phs = phasesSorted().reverse(), cur = curPhase();
+    const V = VIEWS.plan, cur = curPhase(), sel = D.levels.find(l => l.id === (V.lv || cur?.level)) || D.levels[0];
+    const selPh = phasesSorted().filter(p => p.level === sel.id), old = phasesSorted().filter(p => p !== cur).reverse(), ss = levelStatus(sel);
     return `
-    <div class="head"><div><h1>الخطة والمراحل</h1><p>برنامج د. أصيل كما هو. كل مرحلة تنتمي لمستوى من مستويات الطريق.</p></div>
-      ${EDIT ? `<div class="row"><button class="btn ai" id="newPlan">خطة جديدة من رسالة واتساب</button><button class="btn" id="addConsult">تسجيل استشارة</button></div>` : ''}</div>
-    <div class="grid g2" style="align-items:start">
-      <section class="card"><h2>المستويات</h2>
-        ${D.levels.map((L, i) => { const s = levelStatus(L); const P = D.phases.filter(p => p.level === L.id); return `<div class="lv ${s}"><span class="n">${i + 1}</span><div><b>${esc(L.name)}</b> <span class="muted ltr">${esc(L.en)}</span> ${s === 'now' ? '<span class="badge path">الآن</span>' : s === 'done' ? '<span class="badge ok">تم</span>' : ''}<div class="sub" style="font-size:14px">${esc(L.desc)}</div>${P.length ? `<div class="muted">${P.map(p => `${fD(p.start)} ← ${p.end ? fD(p.end) : 'مستمرة'}`).join(' · ')}</div>` : ''}<div class="row" style="margin-top:4px">${L.criteria.map(c => `<span class="badge">${esc(c)}</span>`).join('')}</div></div></div>`; }).join('')}
-      </section>
-      <section class="card"><h2>الاستشارات ${EDIT ? `<label class="row muted" style="gap:6px">القادمة <input type="date" id="nextC" value="${D.profile.nextConsult || ''}" style="width:auto;margin:0;min-height:34px"></label>` : ''}</h2>
-        <div class="tl">${[...D.consults].sort((a, b) => a.date < b.date ? 1 : -1).map(c => `<div class="start"><b>${esc(c.title)}</b><small>${fD(c.date, { day: 'numeric', month: 'long', year: 'numeric' })}</small><div class="sub" style="font-size:14px">${esc(c.notes)}</div></div>`).join('')}</div>
+    <div class="head"><div><h1>الخطة</h1><p>برنامج د. أصيل بمستوياته. اضغط على أي مستوى.</p></div>
+      ${EDIT ? `<div class="row"><button class="btn primary" id="newPlan">✦ خطة جديدة بعد الجلسة</button><button class="btn" id="addConsult">تسجيل استشارة</button></div>` : ''}</div>
+    <section class="card">
+      <div class="stepper">${D.levels.map((L, i) => `<button class="stp ${levelStatus(L)} ${L === sel ? 'sel' : ''}" data-lv="${L.id}"><span class="n">${levelStatus(L) === 'done' ? '✓' : i + 1}</span><span class="t">${esc(L.name)}</span></button>`).join('')}</div>
+      <div class="lvd" key="${sel.id}"><h2>${esc(sel.name)} <span class="row"><span class="muted ltr">${esc(sel.en)}</span><span class="badge ${ss === 'done' ? 'ok' : ss === 'now' ? 'path' : ''}">${ss === 'done' ? 'تم' : ss === 'now' ? 'الآن' : 'قادم'}</span></span></h2>
+        <p class="sub" style="margin:0 0 8px">${esc(sel.desc)}</p><div class="crit">${sel.criteria.map(c => `<div class="hov">${esc(c)}</div>`).join('')}</div>
+        ${selPh.length ? `<div class="muted" style="margin-top:8px">المراحل: ${selPh.map(p => `${esc(p.name.split('—')[0].trim())} (${fD(p.start)}${p.end ? ' ← ' + fD(p.end) : ''})`).join(' · ')}</div>` : `<div class="muted" style="margin-top:8px">${ss === 'next' ? 'تنحط خطته لما توصل له مع الدكتور.' : ''}</div>`}</div></section>
+    ${cur ? `<section class="card" style="margin-top:14px"><h2>${esc(cur.name)} <span class="badge path">الحالية</span></h2>${phaseBlock(cur)}</section>` : ''}
+    <div class="grid g2" style="margin-top:14px;align-items:start">
+      <section class="card"><h2>الاستشارات ${EDIT ? `<label class="row muted" style="gap:6px;font-size:13px">القادمة <input type="date" id="nextC" value="${D.profile.nextConsult || ''}" style="width:auto;margin:0;min-height:34px"></label>` : ''}</h2>
+        <div class="tl">${[...D.consults].sort((a, b) => a.date < b.date ? 1 : -1).map(c => `<div class="start hov"><b>${esc(c.title)}</b><small>${fD(c.date, { day: 'numeric', month: 'long', year: 'numeric' })}</small>${c.notes ? `<div class="sub" style="font-size:14px">${esc(c.notes)}</div>` : ''}</div>`).join('')}</div>
         <p class="muted" style="margin:0">المعالج: ${esc(D.profile.therapist)} · <a href="${esc(D.profile.therapistSite)}" target="_blank" rel="noopener">${esc(D.profile.therapistSite.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''))}</a></p></section>
-    </div>
-    ${phs.map(ph => `<section class="card" style="margin-top:14px"><h2><span>${esc(ph.name)} ${ph === cur ? '<span class="badge path">الحالية</span>' : '<span class="badge">منتهية</span>'}</span><span class="row"><span class="badge">${fD(ph.start)} ← ${ph.end ? fD(ph.end) : 'مستمرة'}</span><span class="badge ${ph.painLimit ? 'warn' : 'ok'}">حد الألم ${ph.painLimit}</span><span class="badge">${fmt(ph.stepTarget)} خطوة</span>${EDIT ? `<button class="btn sm" data-eph="${ph.id}">تعديل</button>` : ''}</span></h2>
-      <div class="grid g2">${ph.exercises.filter(e => e.active !== false).map(e => `<div class="exc"><div class="row" style="justify-content:space-between"><b dir="ltr">${esc(e.name)}</b><span class="dose num">${esc(e.dose)}</span></div><div class="muted">${esc(e.goal)}</div>
-        ${e.howto?.length ? `<ol>${e.howto.map(s => `<li>${esc(s)}</li>`).join('')}</ol><div class="muted" style="font-size:12px;margin-top:4px">${e.howtoSource === 'doctor' ? 'من تعليمات الدكتور' : e.howtoSource === 'ai' ? 'وصف مقترح من Claude: الفيديو وتعليمات الدكتور هي المرجع' : 'وصف عام: الفيديو وتعليمات الدكتور هي المرجع'}</div>` : ''}
-        <div class="row" style="margin-top:8px">${e.video ? `<a class="btn sm" href="${esc(e.video)}" target="_blank" rel="noopener">فيديو الدكتور</a>` : ''}${EDIT ? `<button class="btn sm" data-eex="${ph.id}|${e.id}">تعديل</button>` : ''}</div></div>`).join('')}</div></section>`).join('')}`;
+      <section class="card"><h2>المراحل السابقة</h2>${old.length ? old.map(ph => `<details class="oldph"><summary><b>${esc(ph.name)}</b><span class="muted">${fD(ph.start)} ← ${ph.end ? fD(ph.end) : '—'} · ${ph.exercises.length} تمرين</span></summary>${phaseBlock(ph)}</details>`).join('') : '<p class="muted" style="margin:0">ماكو بعد.</p>'}</section>
+    </div>`;
   },
   bind(root) {
+    $$('[data-lv]', root).forEach(b => b.onclick = () => { VIEWS.plan.lv = b.dataset.lv; const y = scrollY; render(); scrollTo(0, y); });
+    $$('[data-more]', root).forEach(b => b.onclick = () => { const c = b.closest('.exc'); c.classList.toggle('open'); b.textContent = c.classList.contains('open') ? 'إخفاء' : 'طريقة الأداء'; });
     if (!EDIT) return;
     $('#nextC', root).onchange = e => { D.profile.nextConsult = e.target.value; markDirty('cfg'); toast('حُفظ موعد الاستشارة'); };
     $('#addConsult', root).onclick = () => dialog('تسجيل استشارة', `<label class="f">التاريخ<input type="date" id="cD" value="${today()}"></label><label class="f" style="margin-top:8px">العنوان<input type="text" id="cT" value="استشارة مع د. أصيل"></label><label class="f" style="margin-top:8px">شنو تقرر<textarea id="cN"></textarea></label>`,
       [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { D.consults.push({ id: uid('c'), date: $('#cD', dl).value, title: $('#cT', dl).value, notes: $('#cN', dl).value }); if (D.profile.nextConsult && D.profile.nextConsult <= $('#cD', dl).value) D.profile.nextConsult = ''; markDirty('cfg'); render(); } }]);
     $('#newPlan', root).onclick = newPlanDialog;
     $$('[data-eph]', root).forEach(b => b.onclick = () => { const ph = D.phases.find(p => p.id === b.dataset.eph);
-      dialog('تعديل المرحلة', `<label class="f">الاسم<input type="text" id="pN" value="${esc(ph.name)}"></label><div class="grid g2" style="margin-top:8px"><label class="f">البداية<input type="date" id="pS" value="${ph.start}"></label><label class="f">النهاية<input type="date" id="pE" value="${ph.end || ''}"></label><label class="f">حد الألم<input type="number" id="pL" value="${ph.painLimit}"></label><label class="f">هدف الخطوات<input type="number" id="pT" value="${ph.stepTarget}"></label></div><label class="f" style="margin-top:8px">المستوى<select id="pLv">${D.levels.map(L => `<option value="${L.id}" ${ph.level === L.id ? 'selected' : ''}>${esc(L.name)}</option>`).join('')}</select></label>`,
-        [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { Object.assign(ph, { name: $('#pN', dl).value, start: $('#pS', dl).value, end: $('#pE', dl).value, painLimit: num($('#pL', dl).value) ?? 0, stepTarget: num($('#pT', dl).value) ?? ph.stepTarget, level: $('#pLv', dl).value }); markDirty('cfg'); render(); } }]); });
+      dialog('تعديل المرحلة', `<label class="f">الاسم<input type="text" id="pN" value="${esc(ph.name)}"></label><div class="grid g2" style="margin-top:8px"><label class="f">البداية<input type="date" id="pS" value="${ph.start}"></label><label class="f">النهاية<input type="date" id="pE" value="${ph.end || ''}"></label><label class="f">حد الألم<input type="number" id="pL" value="${ph.painLimit}"></label><label class="f">هدف الخطوات<input type="number" id="pT" value="${ph.stepTarget}"></label></div><label class="f" style="margin-top:8px">المستوى<select id="pLv">${D.levels.map(L => `<option value="${L.id}" ${ph.level === L.id ? 'selected' : ''}>${esc(L.name)}</option>`).join('')}</select></label><label class="f" style="margin-top:8px">تعليمات عامة<textarea id="pG" style="min-height:60px">${esc(ph.goal || '')}</textarea></label>`,
+        [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { Object.assign(ph, { name: $('#pN', dl).value, start: $('#pS', dl).value, end: $('#pE', dl).value, painLimit: num($('#pL', dl).value) ?? 0, stepTarget: num($('#pT', dl).value) ?? ph.stepTarget, level: $('#pLv', dl).value, goal: $('#pG', dl).value }); markDirty('cfg'); render(); } }]); });
     $$('[data-eex]', root).forEach(b => b.onclick = () => { const [pid, xid] = b.dataset.eex.split('|'); const ph = D.phases.find(p => p.id === pid), e = ph.exercises.find(x => x.id === xid);
-      const dl = dialog('تعديل التمرين', `<label class="f">الاسم<input type="text" id="xN" dir="ltr" value="${esc(e.name)}"></label><label class="f" style="margin-top:8px">الجرعة<input type="text" id="xD" value="${esc(e.dose)}"></label><label class="f" style="margin-top:8px">رابط الفيديو<input type="url" id="xV" dir="ltr" value="${esc(e.video || '')}"></label><label class="f" style="margin-top:8px">طريقة الأداء (سطر لكل خطوة)<textarea id="xH">${esc((e.howto || []).join('\n'))}</textarea></label><label class="row" style="margin-top:8px"><input type="checkbox" id="xA" ${e.active !== false ? 'checked' : ''} style="width:20px;height:20px"> ضمن المتابعة اليومية</label>${CAP.sample ? `<button class="btn ai sm" id="xAI" style="margin-top:8px">اقترح طريقة الأداء بـ Claude</button>` : ''}`,
-        [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { const h = $('#xH', dl).value.split('\n').map(s => s.trim()).filter(Boolean); if (h.join() !== (e.howto || []).join()) e.howtoSource = e._ai ? 'ai' : 'doctor'; delete e._ai; Object.assign(e, { name: $('#xN', dl).value, dose: $('#xD', dl).value, video: $('#xV', dl).value, howto: h, active: $('#xA', dl).checked }); markDirty('cfg'); render(); } }]);
-      const ai = $('#xAI', dl); if (ai) ai.onclick = async () => { ai.disabled = true; ai.textContent = 'Claude يكتب…'; try { const r = await CAP.sample.json(`أنت مساعد علاج طبيعي. اكتب طريقة أداء التمرين التالي بخطوات قصيرة وواضحة باللهجة العراقية المبسطة (3 إلى 5 خطوات)، بدون تغيير الجرعة، ومع خطوة أمان عن حدود الألم. التمرين: ${e.name}. الجرعة: ${e.dose}. الهدف: ${e.goal}. أرجع JSON بالشكل {"steps":["..."]} فقط.`, { modelTier: 'quick' }); if (r?.steps?.length) { $('#xH', dl).value = r.steps.join('\n'); e._ai = true; } } catch (er) { toast(er?.code === 'not_granted' ? 'Claude غير متاح بهذا العرض' : 'تعذر الاقتراح، حاول بعدين'); } ai.disabled = false; ai.textContent = 'اقترح طريقة الأداء بـ Claude'; };
+      const dl = dialog('تعديل التمرين', `<label class="f">الاسم<input type="text" id="xN" dir="ltr" value="${esc(e.name)}"></label><div class="grid g2" style="margin-top:8px"><label class="f">الاسم العربي<input type="text" id="xR" value="${esc(e.ar || '')}"></label><label class="f">الجرعة<input type="text" id="xD" value="${esc(e.dose)}"></label></div><label class="f" style="margin-top:8px">رابط الفيديو<input type="url" id="xV" dir="ltr" value="${esc(e.video || '')}"></label><label class="f" style="margin-top:8px">طريقة الأداء (سطر لكل خطوة)<textarea id="xH">${esc((e.howto || []).join('\n'))}</textarea></label><label class="row" style="margin-top:8px"><input type="checkbox" id="xA" ${e.active !== false ? 'checked' : ''} style="width:20px;height:20px"> ضمن المتابعة اليومية</label>${AI.ok() ? `<button class="btn ai sm" id="xAI" style="margin-top:8px">✦ اقترح طريقة الأداء بـ Claude</button>` : ''}`,
+        [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'primary', run: dl => { const h = $('#xH', dl).value.split('\n').map(s => s.trim()).filter(Boolean); if (h.join() !== (e.howto || []).join()) e.howtoSource = e._ai ? 'ai' : 'doctor'; delete e._ai; const nd = $('#xD', dl).value; if (nd !== e.dose) e.doseSuggested = false; Object.assign(e, { name: $('#xN', dl).value, ar: $('#xR', dl).value, dose: nd, video: $('#xV', dl).value, howto: h, active: $('#xA', dl).checked }); markDirty('cfg'); render(); } }]);
+      const ai = $('#xAI', dl); if (ai) ai.onclick = async () => { ai.disabled = true; ai.textContent = 'Claude يكتب…'; try { const r = await AI.json(`أنت مساعد علاج طبيعي. اكتب طريقة أداء التمرين التالي بخطوات قصيرة وواضحة باللهجة العراقية المبسطة (3 إلى 5 خطوات)، بدون تغيير الجرعة، وآخر خطوة عن حد الألم (${ph.painLimit}/10). التمرين: ${e.name}. الجرعة: ${e.dose}. الهدف: ${e.goal}. أرجع JSON فقط بالشكل {"steps":["..."]}`); if (r?.steps?.length) { $('#xH', dl).value = r.steps.join('\n'); e._ai = true; } } catch (er) { toast(AI.err(er)); } ai.disabled = false; ai.textContent = '✦ اقترح طريقة الأداء بـ Claude'; };
     });
   }
 };
-function newPlanDialog() {
-  const dl = dialog('خطة جديدة من رسالة الدكتور', `<p class="sub" style="margin-top:0">الصق رسالة الواتساب كما هي (التمارين، والجرعات، والروابط). ${CAP.sample ? 'Claude يرتبها، وانت تراجعها قبل الحفظ.' : 'رتّبها يدوياً بالحقول.'}</p>
-    <textarea id="wa" style="min-height:160px" placeholder="الصق الرسالة هنا…"></textarea>
-    <div class="grid g2" style="margin-top:8px"><label class="f">تبدأ من<input type="date" id="npS" value="${today()}"></label><label class="f">المستوى<select id="npL">${D.levels.map(L => `<option value="${L.id}" ${levelStatus(L) === 'now' ? 'selected' : ''}>${esc(L.name)}</option>`).join('')}</select></label></div>
-    <div id="npOut" style="margin-top:10px"></div>`,
-    [{ label: 'إلغاء' }, ...(CAP.sample ? [{ label: 'رتّبها بـ Claude', cls: 'ai', run: async dl => { await parsePlan(dl); return false; } }] : []), { label: 'حفظ كمرحلة جديدة', cls: 'primary', run: dl => savePlan(dl) }]);
-  if (!CAP.sample) planEditor(dl, { name: '', painLimit: curPhase()?.painLimit ?? 0, stepTarget: curPhase()?.stepTarget ?? 7000, exercises: [{ name: '', dose: '', goal: '', video: '', howto: [] }] });
-}
-async function parsePlan(dl) {
-  const txt = $('#wa', dl).value.trim(); if (!txt) { toast('الصق الرسالة أولاً'); return; }
-  const out = $('#npOut', dl); out.innerHTML = '<p class="muted">Claude يقرأ الرسالة…</p>';
-  try {
-    const r = await CAP.sample.json(`حوّل رسالة خطة العلاج الطبيعي التالية (مرسلة من المعالج على واتساب) إلى JSON. القواعد: لا تخترع تمارين غير مذكورة. انسخ الجرعات كما هي (مثل "2 × 15" أو "10 × 10 ث"). انسخ روابط الفيديو كما هي، واربط كل رابط بالتمرين اللي قبله أو بعده حسب سياق الرسالة. إذا معلومة غير مذكورة اتركها نص فارغ. اسم التمرين بالإنكليزي إذا مذكور بالإنكليزي. "goal" وصف قصير جداً بالعربي لهدف التمرين إذا مذكور. "howto" خطوات الأداء إذا الدكتور ذكرها، وإلا مصفوفة فارغة. أي تعليمات عامة (حد الألم، الخطوات، الصلاة) ضعها في "notes". أرجع JSON فقط بالشكل:
-{"name":"اسم المرحلة","painLimit":0,"stepTarget":0,"notes":"","exercises":[{"name":"","dose":"","goal":"","video":"","howto":[]}]}
 
-الرسالة:
-${txt}`, { modelTier: 'default' });
-    planEditor(dl, { name: r.name || 'المرحلة ' + (D.phases.length + 1), painLimit: num(r.painLimit) ?? curPhase()?.painLimit ?? 0, stepTarget: num(r.stepTarget) || curPhase()?.stepTarget || 7000, notes: r.notes || '', exercises: (r.exercises || []).map(e => ({ name: e.name || '', dose: e.dose || '', goal: e.goal || '', video: e.video || '', howto: e.howto || [] })) });
-  } catch (e) { out.innerHTML = `<div class="note warn">${e?.code === 'not_granted' ? 'Claude غير متاح بهذا العرض.' : e?.code === 'rate_limited' ? 'طلبات كثيرة، انتظر دقيقة.' : 'تعذر قراءة الرسالة. رتّبها يدوياً.'}</div>`; planEditor(dl, { name: '', painLimit: 0, stepTarget: 7000, exercises: [{ name: '', dose: '', goal: '', video: '', howto: [] }] }); }
+/* ---------- خطة جديدة: أسماء وروابط ← Claude يرتب ---------- */
+function localParse(txt) {
+  const out = []; const urlRe = /https?:\/\/[^\s<>"')]+/g;
+  for (let line of txt.split(/\n+/)) {
+    const urls = line.match(urlRe) || []; line = line.replace(urlRe, ' ').replace(/^[\s\-–•*·\d.)(]+/, '').replace(/[\s:–\-|،,]+$/, '').trim();
+    const dm = line.match(/(\d+\s*[x×X*]\s*\d+\s*(?:ث|ثانية|ثواني|s|sec|seconds?)?|\d+\s*(?:ث|ثانية|ثواني|sec|seconds?|دقيقة|دقائق|min))/);
+    if (line) out.push({ name: line.replace(dm?.[0] || '', '').replace(/[\s:–\-]+$/, '').trim() || line, dose: dm ? dm[0].trim() : '', video: urls[0] || '' });
+    else if (urls.length) { const last = [...out].reverse().find(e => !e.video); if (last) last.video = urls[0]; else out.push({ name: '', dose: '', video: urls[0] }); }
+  }
+  return out.filter(e => e.name || e.video);
 }
-function planEditor(dl, p) {
+function newPlanDialog() {
+  const ok = AI.ok(), cur = curPhase();
+  const dl = dialog('خطة جديدة بعد الجلسة', `
+    <p class="sub" style="margin-top:0">اكتب أسماء التمارين، كل تمرين بسطر، ومعاه الرابط إذا عندك. أو الصق رسالة الواتساب كما هي.
+    ${ok ? 'Claude يرتبها: الاسم الصحيح، والجرعة، والهدف، والعضلات، وطريقة الأداء.' : '<br><b>Claude غير مفعّل</b>، فعّله من الإعدادات حتى يرتبها. أو احفظها بالأسماء والروابط بس.'}</p>
+    <div id="npIn"><textarea id="wa" dir="auto" style="min-height:150px" placeholder="Spanish squat 5×45ث https://youtu.be/…&#10;Step down&#10;Wall sit"></textarea></div>
+    <details class="more"><summary>تفاصيل المرحلة (اختياري)</summary><div class="grid g2" style="margin-top:6px">
+      <label class="f">تبدأ من<input type="date" id="npS" value="${today()}"></label>
+      <label class="f">المستوى<select id="npL">${D.levels.map(L => `<option value="${L.id}" ${levelStatus(L) === 'now' ? 'selected' : ''}>${esc(L.name)}</option>`).join('')}</select></label>
+      <label class="f">حد الألم<input type="number" id="npP" value="${cur?.painLimit ?? 0}"></label>
+      <label class="f">هدف الخطوات<input type="number" id="npT" value="${cur?.stepTarget ?? 7000}"></label></div></details>
+    <div id="npOut" style="margin-top:10px"></div>`,
+    [{ label: 'إلغاء' }, ok ? { label: '✦ رتّبها بـ Claude', cls: 'primary', run: async dl => { await arrangePlan(dl); return false; } } : { label: 'رتّبها بدون Claude', cls: 'primary', run: dl => { const t = $('#wa', dl).value.trim(); if (!t) { toast('اكتب التمارين أولاً'); return false; } planPreview(dl, { phaseName: '', notes: '', exercises: localParse(t).map(e => ({ ...e, howto: [], doseSuggested: false })) }, false); return false; } }]);
+}
+async function arrangePlan(dl) {
+  const txt = $('#wa', dl).value.trim(); if (!txt) { toast('اكتب التمارين أولاً'); return; }
+  const out = $('#npOut', dl), L = D.levels.find(l => l.id === $('#npL', dl).value), lim = num($('#npP', dl).value) ?? 0;
+  out.innerHTML = '<div class="thinking"><span></span><span></span><span></span> Claude يرتب التمارين…</div>';
+  try {
+    const r = await AI.json(`أنت مساعد علاج طبيعي يرتب خطة تمارين لمريض عنده اعتلال الوتر الرضفي بالركبة اليسرى. المستوى الحالي: ${L.name} — ${L.desc}. حد الألم ${lim}/10.
+المريض كتب بعد جلسته مع المعالج أسماء التمارين، وأحياناً روابط فيديو وجرعات. رتّبها حسب القواعد:
+- لا تضيف تمرين غير مذكور، ولا تحذف أي تمرين، وحافظ على الترتيب.
+- name: الاسم الإنكليزي الشائع للتمرين (صحّح الإملاء).
+- ar: اسم عربي قصير.
+- short: اختصار من 2 إلى 5 أحرف إنكليزية كبيرة.
+- dose: إذا الجرعة مذكورة انسخها كما هي و doseSuggested=false. إذا مو مذكورة اقترح جرعة محافظة تناسب المستوى بصيغة مثل "3 × 10" أو "5 × 45 ث"، و doseSuggested=true.
+- goal: هدف التمرين بجملة قصيرة بالعربي.
+- muscle: العضلات الأساسية، كلمتين أو ثلاث مفصولة بفاصلة.
+- howto: من 3 إلى 5 خطوات قصيرة باللهجة العراقية المبسطة، وآخر خطوة عن حد الألم.
+- video: الرابط المرتبط بالتمرين كما هو بالضبط، أو "".
+وأرجع phaseName (اسم قصير للمرحلة بالعربي)، و notes (أي تعليمات عامة مذكورة بالنص، أو "").
+أرجع JSON فقط بهذا الشكل:
+{"phaseName":"","notes":"","exercises":[{"name":"","ar":"","short":"","dose":"","doseSuggested":false,"goal":"","muscle":"","howto":[],"video":""}]}
+
+النص:
+${txt}
+
+ربط أولي للروابط بالأسطر (للمساعدة): ${JSON.stringify(localParse(txt))}`);
+    planPreview(dl, { phaseName: r.phaseName || '', notes: r.notes || '', exercises: (r.exercises || []).map(e => ({ name: e.name || '', ar: e.ar || '', short: e.short || '', dose: e.dose || '', doseSuggested: !!e.doseSuggested, goal: e.goal || '', muscle: e.muscle || '', howto: Array.isArray(e.howto) ? e.howto : [], video: e.video || '' })) }, true);
+  } catch (e) { out.innerHTML = `<div class="note warn">${AI.err(e)}</div>`; }
+}
+function planPreview(dl, plan, ai) {
+  dl._plan = plan; dl._ai = ai; const inp = $('#npIn', dl); if (inp) inp.hidden = true;
   const out = $('#npOut', dl);
-  out.innerHTML = `<div class="note path" style="margin-bottom:8px">راجع كل تمرين قبل الحفظ.</div>
-    <div class="grid g3"><label class="f">اسم المرحلة<input type="text" id="npN" value="${esc(p.name)}"></label><label class="f">حد الألم<input type="number" id="npP" value="${p.painLimit}"></label><label class="f">هدف الخطوات<input type="number" id="npT" value="${p.stepTarget}"></label></div>
-    <label class="f" style="margin-top:8px">تعليمات عامة<textarea id="npNotes" style="min-height:60px">${esc(p.notes || '')}</textarea></label>
-    <div id="npEx" class="stack" style="margin-top:10px;gap:8px">${p.exercises.map((e, i) => `<div class="exc" data-i="${i}"><div class="grid g2"><label class="f">التمرين<input type="text" data-k="name" dir="ltr" value="${esc(e.name)}"></label><label class="f">الجرعة<input type="text" data-k="dose" value="${esc(e.dose)}"></label><label class="f">الهدف<input type="text" data-k="goal" value="${esc(e.goal)}"></label><label class="f">الفيديو<input type="url" data-k="video" dir="ltr" value="${esc(e.video)}"></label></div><label class="f" style="margin-top:6px">طريقة الأداء (سطر لكل خطوة)<textarea data-k="howto" style="min-height:56px">${esc((e.howto || []).join('\n'))}</textarea></label><button class="btn sm danger" data-rm style="margin-top:6px">حذف التمرين</button></div>`).join('')}</div>
-    <button class="btn sm" id="npAdd" style="margin-top:8px">+ تمرين</button>`;
-  $$('[data-rm]', out).forEach(b => b.onclick = () => b.closest('.exc').remove());
-  $('#npAdd', out).onclick = () => { const cur = readPlan(dl); cur.exercises.push({ name: '', dose: '', goal: '', video: '', howto: [] }); planEditor(dl, cur); };
+  const card = (e, i) => e._edit ? `<div class="exc" data-i="${i}"><div class="grid g2"><label class="f">التمرين<input type="text" data-k="name" dir="ltr" value="${esc(e.name)}"></label><label class="f">بالعربي<input type="text" data-k="ar" value="${esc(e.ar || '')}"></label><label class="f">الجرعة<input type="text" data-k="dose" value="${esc(e.dose)}"></label><label class="f">الفيديو<input type="url" data-k="video" dir="ltr" value="${esc(e.video)}"></label></div><label class="f" style="margin-top:6px">طريقة الأداء (سطر لكل خطوة)<textarea data-k="howto" style="min-height:70px">${esc((e.howto || []).join('\n'))}</textarea></label><button class="btn sm primary" data-ok="${i}" style="margin-top:6px">تم</button></div>`
+    : `<article class="exc hov pv" data-i="${i}"><div class="row" style="justify-content:space-between;align-items:start"><div style="min-width:0"><b dir="ltr" class="exn">${esc(e.name)}</b>${e.ar ? `<div class="exar">${esc(e.ar)}</div>` : ''}</div><span class="dose num ${e.doseSuggested ? 'sug' : ''}">${esc(e.dose || '—')}${e.doseSuggested ? ' *' : ''}</span></div>
+      ${e.goal ? `<div class="muted">${esc(e.goal)}</div>` : ''}${e.howto?.length ? `<div class="muted" style="font-size:12.5px">${e.howto.length} خطوات أداء</div>` : ''}
+      <div class="row" style="margin-top:6px">${e.video ? '<span class="badge acc">▶ فيديو</span>' : ''}<span class="grow"></span><button class="btn sm ghost" data-ed="${i}">تعديل</button><button class="btn sm ghost danger" data-rm="${i}" aria-label="حذف">✕</button></div></article>`;
+  out.innerHTML = `<div class="note path" style="margin-bottom:8px">${ai ? 'رتّبها Claude. ' : ''}راجعها قبل الاعتماد. <button class="btn sm ghost" id="npBack">عدّل النص</button>${plan.exercises.some(e => e.doseSuggested) ? ' الجرعات المعلّمة بـ * مقترحة، أكّدها مع الدكتور.' : ''}</div>
+    <label class="f">اسم المرحلة<input type="text" id="npN" value="${esc(plan.phaseName)}" placeholder="مثلاً: المرحلة الثالثة — تحميل ثقيل"></label>
+    ${plan.notes ? `<label class="f" style="margin-top:8px">تعليمات عامة<textarea id="npNotes" style="min-height:56px">${esc(plan.notes)}</textarea></label>` : ''}
+    <div class="exgrid one" style="margin-top:10px">${plan.exercises.map(card).join('')}</div>`;
+  const bk = $('#npBack', out); if (bk) bk.onclick = () => { $('#npIn', dl).hidden = false; $('#wa', dl).focus(); };
+  $$('[data-ed]', out).forEach(b => b.onclick = () => { syncPlan(dl); plan.exercises[+b.dataset.ed]._edit = true; planPreview(dl, plan, ai); });
+  $$('[data-rm]', out).forEach(b => b.onclick = () => { syncPlan(dl); plan.exercises.splice(+b.dataset.rm, 1); planPreview(dl, plan, ai); });
+  $$('[data-ok]', out).forEach(b => b.onclick = () => { syncPlan(dl); delete plan.exercises[+b.dataset.ok]._edit; planPreview(dl, plan, ai); });
+  dl._set([{ label: 'إلغاء' }, ...(AI.ok() ? [{ label: 'أعد الترتيب', cls: 'ai', run: async dl => { await arrangePlan(dl); return false; } }] : []), { label: 'اعتمد الخطة', cls: 'primary', run: dl => savePlan(dl) }]);
 }
-function readPlan(dl) {
-  return { name: $('#npN', dl)?.value || '', painLimit: num($('#npP', dl)?.value) ?? 0, stepTarget: num($('#npT', dl)?.value) ?? 7000, notes: $('#npNotes', dl)?.value || '',
-    exercises: $$('#npEx .exc', dl).map(c => { const g = k => $(`[data-k="${k}"]`, c).value.trim(); return { name: g('name'), dose: g('dose'), goal: g('goal'), video: g('video'), howto: g('howto').split('\n').map(s => s.trim()).filter(Boolean) }; }).filter(e => e.name) };
+function syncPlan(dl) {
+  const p = dl._plan; const n = $('#npN', dl); if (n) p.phaseName = n.value; const nt = $('#npNotes', dl); if (nt) p.notes = nt.value;
+  $$('#npOut .exc[data-i]', dl).forEach(c => { if (!$('[data-k]', c)) return; const e = p.exercises[+c.dataset.i], g = k => $(`[data-k="${k}"]`, c).value.trim();
+    const nd = g('dose'); if (nd !== e.dose) e.doseSuggested = false; const h = g('howto').split('\n').map(s => s.trim()).filter(Boolean); if (h.join() !== (e.howto || []).join()) e._hEdited = true;
+    Object.assign(e, { name: g('name'), ar: g('ar'), dose: nd, video: g('video'), howto: h }); });
 }
 function savePlan(dl) {
-  const p = readPlan(dl), start = $('#npS', dl).value, level = $('#npL', dl).value;
-  if (!p.exercises.length) { toast('أضف تمرين واحد على الأقل'); return false; }
+  syncPlan(dl); const p = dl._plan, start = $('#npS', dl).value || today(), level = $('#npL', dl).value;
+  const exs = p.exercises.filter(e => e.name); if (!exs.length) { toast('ماكو تمارين'); return false; }
+  if (exs.some(e => e._edit)) { toast('اضغط "تم" على التمرين المفتوح'); return false; }
   const cur = curPhase(); if (cur && !cur.end && cur.start < start) cur.end = addDays(start, -1);
   const short = n => n.replace(/[^A-Za-z0-9 ]/g, '').split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 5) || 'EX';
-  D.phases.push({ id: uid('p'), name: p.name || 'مرحلة جديدة', nameEn: '', start, end: '', painLimit: p.painLimit, stepTarget: p.stepTarget, goal: p.notes, level,
-    exercises: p.exercises.map(e => ({ id: uid('x'), name: e.name, short: short(e.name), dose: e.dose, goal: e.goal, video: e.video, howto: e.howto, howtoSource: e.howto.length ? 'doctor' : 'general', active: true })) });
-  D.consults.push({ id: uid('c'), date: start, title: 'خطة جديدة: ' + (p.name || ''), notes: p.notes || 'خطة جديدة من الدكتور.' });
-  markDirty('cfg'); render(); toast('حُفظت المرحلة الجديدة');
+  const name = p.phaseName || `المرحلة ${D.phases.length + 1}`;
+  D.phases.push({ id: uid('p'), name, nameEn: '', start, end: '', painLimit: num($('#npP', dl).value) ?? 0, stepTarget: num($('#npT', dl).value) ?? 7000, goal: p.notes || '', level,
+    exercises: exs.map(e => ({ id: uid('x'), name: e.name, ar: e.ar || '', short: (e.short || short(e.name)).slice(0, 5), dose: e.dose, doseSuggested: !!e.doseSuggested, goal: e.goal || '', muscle: e.muscle || '', video: e.video, howto: e.howto || [], howtoSource: !e.howto?.length ? 'general' : e._hEdited ? 'doctor' : dl._ai ? 'ai' : 'doctor', active: true })) });
+  D.consults.push({ id: uid('c'), date: start, title: 'خطة جديدة: ' + name, notes: p.notes || '' });
+  VIEWS.plan.lv = null; markDirty('cfg'); route('plan'); toast('اعتُمدت الخطة الجديدة');
 }
-
-/* ================= الأهداف ================= */
-VIEWS.goals = {
-  html() {
-    return `<div class="head"><div><h1>الأهداف</h1><p>تتحدّث تلقائياً من السجل اليومي.</p></div>${EDIT ? '<button class="btn" id="addG">هدف جديد</button>' : ''}</div>
-    <div class="grid g2">${D.goals.map(g => { const pr = goalProgress(g); const ok = pr.p >= 1; return `<section class="card"><h2><span>${esc(g.title)}</span><span class="badge ${ok ? 'ok' : 'path'}">${ok ? 'تحقق' : r0(pr.p * 100) + '%'}</span></h2>
-      <div class="kpi"><div class="v" style="font-size:22px">${pr.label}</div></div><div class="meter"><i style="width:${pr.p * 100}%;${ok ? 'background:var(--ok)' : ''}"></i></div>
-      ${EDIT && g.metric === 'manual' ? `<label class="row" style="margin-top:8px"><input type="checkbox" data-gd="${g.id}" ${g.done ? 'checked' : ''} style="width:20px;height:20px"> تحقق</label>` : ''}</section>`; }).join('')}</div>`;
-  },
-  bind(root) {
-    if (!EDIT) return;
-    $$('[data-gd]', root).forEach(c => c.onchange = () => { const g = D.goals.find(x => x.id === c.dataset.gd); g.done = c.checked; if (c.checked) g.doneAt = today(); markDirty('cfg'); render(); });
-    $('#addG', root).onclick = () => dialog('هدف جديد', `<label class="f">الهدف<input type="text" id="gT"></label><label class="f" style="margin-top:8px">النوع<select id="gM"><option value="manual">يدوي (أأشّر عليه لما يتحقق)</option><option value="steps7">معدل الخطوات</option><option value="weight">الوزن</option><option value="flexion">زاوية الثني</option><option value="painFree14">أيام بدون ألم</option><option value="adherence14">الالتزام %</option></select></label><label class="f" style="margin-top:8px">القيمة المطلوبة<input type="number" id="gV" value="1"></label>`,
-      [{ label: 'إلغاء' }, { label: 'إضافة', cls: 'primary', run: dl => { const t = $('#gT', dl).value.trim(); if (!t) return false; D.goals.push({ id: uid('g'), title: t, metric: $('#gM', dl).value, target: num($('#gV', dl).value) || 1, done: false }); markDirty('cfg'); render(); } }]);
-  }
-};
 
 /* ================= الإصابة: التمثيل التشريحي ================= */
 const STAGES = [
@@ -733,20 +1044,20 @@ function kneeSVG(stage, layers) {
   const swell = stage === 1 ? `<path d="M322,306 C315,350 300,385 290,410" stroke="var(--bad)" stroke-width="${tw + 12}" opacity=".12" fill="none" stroke-linecap="round"/>` : '';
   const pain = stage >= 1 && stage <= 3 ? `<circle cx="318" cy="318" r="${12 + stage * 3}" fill="none" stroke="var(--bad)" stroke-width="2" stroke-dasharray="3 3" opacity=".8"/>` : '';
   return `<svg viewBox="0 0 440 540" aria-label="رسم جانبي للركبة اليسرى بطبقات">
-    ${on('skin') ? `<path d="M150,0 L330,0 C345,120 352,220 350,300 C352,350 330,420 300,470 L292,540 L150,540 C140,470 130,420 128,360 C120,280 140,140 150,0Z" fill="var(--skin)" opacity=".35" stroke="var(--muscle-line)" stroke-width="1" stroke-dasharray="4 4"/>` : ''}
-    ${on('muscle') ? `<g transform="translate(300 120) scale(${muscleScale}) translate(-300 -120)"><path d="M248,0 C302,40 334,140 322,228 L302,234 C302,150 272,60 244,0Z" fill="var(--muscle)" stroke="var(--muscle-line)" stroke-width="1.2" opacity=".9"/></g>
+    ${on('skin') ? `<g class="ly" data-ly="skin"><path d="M150,0 L330,0 C345,120 352,220 350,300 C352,350 330,420 300,470 L292,540 L150,540 C140,470 130,420 128,360 C120,280 140,140 150,0Z" fill="var(--skin)" opacity=".35" stroke="var(--muscle-line)" stroke-width="1" stroke-dasharray="4 4"/></g>` : ''}
+    ${on('muscle') ? `<g class="ly" data-ly="muscle"><g transform="translate(300 120) scale(${muscleScale}) translate(-300 -120)"><path d="M248,0 C302,40 334,140 322,228 L302,234 C302,150 272,60 244,0Z" fill="var(--muscle)" stroke="var(--muscle-line)" stroke-width="1.2" opacity=".9"/></g>
       <path d="M176,0 C140,60 122,180 142,300 L162,300 C152,200 166,80 182,0Z" fill="var(--muscle)" stroke="var(--muscle-line)" stroke-width="1.2" opacity=".8"/>
       <path d="M166,332 C120,385 126,470 176,540 L194,540 C178,460 176,392 182,346Z" fill="var(--muscle)" stroke="var(--muscle-line)" stroke-width="1.2" opacity=".8"/>
-      <path d="M302,228 C312,236 318,238 320,236" stroke="var(--tendon-line)" stroke-width="6" stroke-linecap="round" fill="none"/>` : ''}
-    ${on('bone') ? `<path d="M178,0 L246,0 C249,120 256,200 286,250 C306,282 300,322 266,336 C230,350 186,346 166,320 C146,294 160,250 168,200 C173,140 178,60 178,0Z" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.5"/>
+      <path d="M302,228 C312,236 318,238 320,236" stroke="var(--tendon-line)" stroke-width="6" stroke-linecap="round" fill="none"/></g>` : ''}
+    ${on('bone') ? `<g class="ly" data-ly="bone"><path d="M178,0 L246,0 C249,120 256,200 286,250 C306,282 300,322 266,336 C230,350 186,346 166,320 C146,294 160,250 168,200 C173,140 178,60 178,0Z" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.5"/>
       <path d="M170,360 C190,345 272,345 292,362 C302,376 294,394 280,402 L264,540 L192,540 L184,402 C170,394 160,376 170,360Z" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.5"/>
       <path d="M282,398 C292,402 296,414 286,420 L276,418Z" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.2"/>
       <path d="M148,384 C156,378 166,380 168,388 L172,540 L160,540 Z" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.2"/>
-      <ellipse cx="322" cy="268" rx="19" ry="38" transform="rotate(-8 322 268)" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.5"/>${spur}` : ''}
-    ${on('tendon') ? `${swell}<path d="M322,306 C315,350 300,385 290,410" stroke="${tc}" stroke-width="${tw}" fill="none" stroke-linecap="round"/><path d="M322,306 C315,350 300,385 290,410" stroke="var(--tendon-line)" stroke-width="${tw}" fill="none" stroke-linecap="round" opacity=".25"/>${fibers}${vessels}${lesion}` : ''}
-    ${on('nerve') ? `<path d="M232,0 C252,80 286,150 300,210" stroke="var(--nerve)" stroke-width="2.4" fill="none"/><path d="M262,140 C290,170 312,190 318,214" stroke="var(--nerve)" stroke-width="1.6" fill="none"/>
+      <ellipse cx="322" cy="268" rx="19" ry="38" transform="rotate(-8 322 268)" fill="var(--bone)" stroke="var(--bone-line)" stroke-width="1.5"/>${spur}</g>` : ''}
+    ${on('tendon') ? `<g class="ly" data-ly="tendon">${swell}<path d="M322,306 C315,350 300,385 290,410" stroke="${tc}" stroke-width="${tw}" fill="none" stroke-linecap="round"/><path d="M322,306 C315,350 300,385 290,410" stroke="var(--tendon-line)" stroke-width="${tw}" fill="none" stroke-linecap="round" opacity=".25"/>${fibers}${vessels}${lesion}</g>` : ''}
+    ${on('nerve') ? `<g class="ly" data-ly="nerve"><path d="M232,0 C252,80 286,150 300,210" stroke="var(--nerve)" stroke-width="2.4" fill="none"/><path d="M262,140 C290,170 312,190 318,214" stroke="var(--nerve)" stroke-width="1.6" fill="none"/>
       <path d="M250,300 C268,334 300,346 342,338" stroke="var(--nerve)" stroke-width="1.8" fill="none" stroke-dasharray="1 0"/>
-      <path d="M164,0 C158,120 150,250 160,340 C164,420 170,480 172,540" stroke="var(--nerve)" stroke-width="2.4" fill="none"/><path d="M160,330 C150,360 146,385 152,400" stroke="var(--nerve)" stroke-width="1.6" fill="none"/>` : ''}
+      <path d="M164,0 C158,120 150,250 160,340 C164,420 170,480 172,540" stroke="var(--nerve)" stroke-width="2.4" fill="none"/><path d="M160,330 C150,360 146,385 152,400" stroke="var(--nerve)" stroke-width="1.6" fill="none"/></g>` : ''}
     ${pain}
     <g font-family="IBM Plex Sans Arabic, sans-serif" font-size="12" fill="var(--ink)">
       ${on('bone') ? '<text x="200" y="40">عظم الفخذ</text><text x="350" y="262">الرضفة</text><text x="200" y="470">الظنبوب</text><text x="296" y="436">حدبة الظنبوب</text>' : ''}
@@ -778,81 +1089,88 @@ const REFS = [
   ['Breda, S. J., Oei, E. H. G., Zwerver, J., Visser, E., Waarsing, E., Krestin, G. P., & de Vos, R. J. (2021). Effectiveness of progressive tendon-loading exercise therapy in patients with patellar tendinopathy: A randomised clinical trial. British Journal of Sports Medicine, 55(9), 501–509. (وصول مفتوح)', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8070614/']
 ];
 VIEWS.injury = {
-  stage: 4, layers: ['bone', 'muscle', 'tendon', 'nerve'],
+  stage: 4, layers: ['bone', 'muscle', 'tendon', 'nerve'], play: null,
   html() {
     const V = VIEWS.injury, S = STAGES[V.stage];
     const L = [['skin', 'الجسم', 'var(--skin)'], ['bone', 'العظام', 'var(--bone)'], ['muscle', 'العضلات', 'var(--muscle)'], ['tendon', 'الوتر', 'var(--tendon-line)'], ['nerve', 'الأعصاب', 'var(--nerve)']];
-    return `<div class="head"><div><h1>الإصابة: اعتلال الوتر الرضفي</h1><p>الركبة اليسرى من الجنب. حرّك المراحل، وشغّل وطفّي الطبقات.</p></div></div>
+    return `<div class="head"><div><h1>الإصابة: اعتلال الوتر الرضفي</h1><p>الركبة اليسرى من الجنب. مرّر على أي طبقة، وحرّك المراحل.</p></div></div>
     <div class="knee">
-      <section class="card"><div class="layer-toggles" role="group" aria-label="الطبقات">${L.map(([k, l, c]) => `<button data-layer="${k}" aria-pressed="${V.layers.includes(k)}"><i style="background:${c}"></i>${l}</button>`).join('')}</div>
+      <section class="card"><div class="row" style="justify-content:space-between"><div class="layer-toggles" role="group" aria-label="الطبقات">${L.map(([k, l, c]) => `<button data-layer="${k}" aria-pressed="${V.layers.includes(k)}"><i style="background:${c}"></i>${l}</button>`).join('')}</div>
+        <button class="btn sm" id="play">${V.play ? '■ إيقاف' : '▶ شغّل المراحل'}</button></div>
         <div id="kneeBox">${kneeSVG(V.stage, V.layers)}</div>
         <input type="range" class="stage-slider" id="stg" min="0" max="${STAGES.length - 1}" value="${V.stage}" aria-label="المرحلة">
         <div class="stages">${STAGES.map((s, i) => `<span data-st="${i}" class="${i === V.stage ? 'on' : ''}">${s.t}</span>`).join('')}</div></section>
       <div class="stack">
-        <section class="card"><h2>${esc(S.t)} <span class="badge path">${esc(S.when)}</span></h2>
-          <div class="what"><div><b>العظم</b>${esc(S.bone)}</div><div><b>العضلة</b>${esc(S.muscle)}</div><div><b>الوتر</b>${esc(S.tendon)}</div><div><b>العصب والألم</b>${esc(S.nerve)}</div><div><b>الجسم والحياة اليومية</b>${esc(S.body)}</div></div></section>
-        <section class="card"><h2>ألياف الوتر تحت المجهر</h2>${microSVG(V.stage)}<p class="muted" style="margin:6px 0 0">${['ألياف متوازية ومشدودة.', 'الألياف سليمة لكن النسيج منتفخ بالماء.', 'ألياف متموجة وغير مرتبة، وأوعية جديدة (أحمر).', 'تقطّع بالألياف ومناطق متغيرة، وأوعية.', 'ألياف جديدة مرتبة تنبني حول المنطقة المتغيرة.', 'نسيج سليم أكبر يحمل الحمل.'][V.stage]}</p></section>
+        <section class="card" id="stageCard"><h2>${esc(S.t)} <span class="badge path">${esc(S.when)}</span></h2>
+          <div class="what">${[['bone', 'العظم', S.bone], ['muscle', 'العضلة', S.muscle], ['tendon', 'الوتر', S.tendon], ['nerve', 'العصب والألم', S.nerve], ['skin', 'الجسم والحياة اليومية', S.body]].map(([k, l, t]) => `<div data-w="${k}" class="hov"><b>${l}</b>${esc(t)}</div>`).join('')}</div></section>
+        <section class="card hov"><h2>ألياف الوتر تحت المجهر</h2>${microSVG(V.stage)}<p class="muted" style="margin:6px 0 0">${['ألياف متوازية ومشدودة.', 'الألياف سليمة لكن النسيج منتفخ بالماء.', 'ألياف متموجة وغير مرتبة، وأوعية جديدة (أحمر).', 'تقطّع بالألياف ومناطق متغيرة، وأوعية.', 'ألياف جديدة مرتبة تنبني حول المنطقة المتغيرة.', 'نسيج سليم أكبر يحمل الحمل.'][V.stage]}</p></section>
       </div></div>
     <div class="grid g2" style="margin-top:14px;align-items:start">
-      <section class="card"><h2>الخريطة: من الحمل إلى العلاج</h2>${mapSVG()}</section>
-      <section class="card"><h2>الخط الزمني</h2><div class="tl">${D.timeline.map(e => `<div class="${e.kind}"><b>${esc(e.title)}</b><small>${fMonth(e.date)}</small><div class="sub" style="font-size:14px">${esc(e.text)}</div></div>`).join('')}</div></section>
+      <section class="card"><h2>الخريطة: من الحمل إلى العلاج</h2>${mapSVG()}<p class="muted" style="margin:4px 0 0">مرّر على أي مربع حتى تشوف شنو يأثر وشنو يتأثر بيه.</p></section>
+      <section class="card"><h2>الأشعة <span class="badge">${fD(D.xrays[0]?.date || today(), { day: 'numeric', month: 'long', year: 'numeric' })}</span></h2>
+        <div class="xr">${D.xrays.map(x => `<figure class="hov" style="margin:0"><img src="${esc(x.file)}" alt="${esc(x.caption)}" loading="lazy"><figcaption>${esc(x.caption)}</figcaption></figure>`).join('')}</div></section>
     </div>
-    <section class="card" style="margin-top:14px"><h2>الأشعة <span class="badge">${fD(D.xrays[0]?.date || today(), { day: 'numeric', month: 'long', year: 'numeric' })}</span></h2>
-      <div class="xr g2 grid">${D.xrays.map(x => `<figure style="margin:0"><img src="${esc(x.file)}" alt="${esc(x.caption)}" loading="lazy"><figcaption>${esc(x.caption)}</figcaption></figure>`).join('')}</div></section>
-    <section class="card" style="margin-top:14px"><h2>المراجع</h2><ol class="refs">${REFS.map(([t, u]) => `<li>${esc(t)} <a href="${u}" target="_blank" rel="noopener">رابط</a></li>`).join('')}</ol>
-      <p class="muted" style="margin:0">الرسم توضيحي ومبسط لمراحل نموذج الاستمرارية، ومو صورة طبية لركبتك. والتشخيص والقرار من المعالج.</p></section>`;
+    <details class="card refsbox" style="margin-top:14px"><summary><h2 style="display:inline">المراجع العلمية</h2> <span class="muted">${REFS.length} مصادر</span></summary><ol class="refs">${REFS.map(([t, u]) => `<li>${esc(t)} <a href="${u}" target="_blank" rel="noopener">رابط</a></li>`).join('')}</ol>
+      <p class="muted" style="margin:0">الرسم توضيحي ومبسط لمراحل نموذج الاستمرارية، ومو صورة طبية لركبتك. والتشخيص والقرار من المعالج.</p></details>`;
   },
   bind(root) {
     const V = VIEWS.injury, re = () => { const y = scrollY; render(); scrollTo(0, y); };
-    $('#stg', root).oninput = e => { V.stage = +e.target.value; re(); };
-    $$('[data-st]', root).forEach(s => s.onclick = () => { V.stage = +s.dataset.st; re(); });
+    const go = s => { V.stage = s; re(); };
+    $('#stg', root).oninput = e => { stop(); go(+e.target.value); };
+    $$('[data-st]', root).forEach(s => s.onclick = () => { stop(); go(+s.dataset.st); });
     $$('[data-layer]', root).forEach(b => b.onclick = () => { const k = b.dataset.layer; V.layers = V.layers.includes(k) ? V.layers.filter(x => x !== k) : [...V.layers, k]; re(); });
+    function stop() { if (V.play) { clearInterval(V.play); V.play = null; } }
+    $('#play', root).onclick = () => { if (V.play) { stop(); re(); return; } V.stage = 0; V.play = setInterval(() => { if (route.tab !== 'injury') return stop(); if (V.stage >= STAGES.length - 1) { stop(); re(); return; } go(V.stage + 1); }, 1700); re(); };
+    // ربط الطبقة بالنص: مرّر على الرسم أو على السطر
+    const svg = $('#kneeBox svg', root), card = $('#stageCard', root);
+    const hl = k => { svg.classList.toggle('focus', !!k); $$('.ly', svg).forEach(g => g.classList.toggle('on', g.dataset.ly === k)); $$('[data-w]', card).forEach(w => w.classList.toggle('lit', w.dataset.w === k)); };
+    $$('.ly', svg).forEach(g => { g.addEventListener('pointerenter', () => hl(g.dataset.ly)); g.addEventListener('click', () => hl(g.dataset.ly)); });
+    svg.addEventListener('pointerleave', () => hl(null));
+    $$('[data-w]', card).forEach(w => { w.addEventListener('pointerenter', () => hl(w.dataset.w)); w.addEventListener('pointerleave', () => hl(null)); });
+    // الخريطة
+    const map = $('.map', root); if (map) $$('.mn', map).forEach(n => { n.addEventListener('pointerenter', () => { map.classList.add('dim'); const i = n.dataset.n; $$('.me', map).forEach(e => e.classList.toggle('hl', e.dataset.a === i || e.dataset.b === i)); $$('.mn', map).forEach(m => m.classList.toggle('hl', m === n || $$('.me.hl', map).some(e => e.dataset.a === m.dataset.n || e.dataset.b === m.dataset.n))); }); });
+    if (map) map.addEventListener('pointerleave', () => { map.classList.remove('dim'); $$('.hl', map).forEach(x => x.classList.remove('hl')); });
   }
 };
 function mapSVG() {
   const N = [['الحمل المتكرر', 'كرة، مشي، ليك برس', 70, 40, 'var(--warn)'], ['قدرة الوتر', 'أقل من الحمل', 250, 40, 'var(--bad)'], ['الوتر يتغير', 'تفاعلي ← تنكسي', 430, 40, 'var(--bad)'],
     ['الألم والتثبيط', 'العضلة تضعف', 430, 150, 'var(--bad)'], ['الحركة تقل', 'الوزن يزيد', 250, 150, 'var(--warn)'], ['حلقة مفرغة', '', 70, 150, 'var(--muted)'],
     ['تحميل تدريجي', 'ثابت ← ديناميكي', 70, 260, 'var(--accent)'], ['قدرة أعلى', 'عضلة + وتر', 250, 260, 'var(--accent)'], ['الهدف', 'السجدة والملعب', 430, 260, 'var(--path)']];
-  const E = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0], [6, 7], [7, 8]];
-  return `<svg viewBox="0 0 500 310" style="width:100%;height:auto;direction:ltr" aria-label="خريطة الأسباب والعلاج">
+  const E = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0], [5, 6], [6, 7], [7, 8]];
+  return `<svg class="map" viewBox="0 0 500 310" style="width:100%;height:auto;direction:ltr" aria-label="خريطة الأسباب والعلاج">
     <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8Z" fill="var(--muted)"/></marker></defs>
-    ${E.map(([a, b]) => `<line x1="${N[a][2]}" y1="${N[a][3]}" x2="${N[b][2]}" y2="${N[b][3]}" stroke="var(--muted)" stroke-width="1.4" marker-end="url(#ar)" opacity=".6"/>`).join('')}
-    <line x1="70" y1="175" x2="70" y2="235" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ar)"/>
-    ${N.map(([t, s, x, y, c]) => `<g><rect x="${x - 62}" y="${y - 22}" width="124" height="${s ? 44 : 30}" rx="10" fill="var(--surface)" stroke="${c}" stroke-width="2"/><text x="${x}" y="${y - (s ? 4 : -4)}" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink)" font-family="IBM Plex Sans Arabic, sans-serif">${t}</text>${s ? `<text x="${x}" y="${y + 13}" text-anchor="middle" font-size="10.5" fill="var(--ink-2)" font-family="IBM Plex Sans Arabic, sans-serif">${s}</text>` : ''}</g>`).join('')}
+    ${E.map(([a, b]) => { let [x1, y1, x2, y2] = [N[a][2], N[a][3], N[b][2], N[b][3]]; const k = a === 5 && b === 6; if (!k) { if (y1 === y2) { const d = Math.sign(x2 - x1) * 64; x1 += d; x2 -= d; } else { const d = Math.sign(y2 - y1) * 24; y1 += d; y2 -= d; } } return `<line class="me" data-a="${a}" data-b="${b}" x1="${x1}" y1="${y1 + (k ? 15 : 0)}" x2="${x2}" y2="${y2 - (k ? 22 : 0)}" stroke="${k ? 'var(--accent)' : 'var(--muted)'}" stroke-width="${k ? 2 : 1.4}" ${k ? 'stroke-dasharray="4 3"' : ''} marker-end="url(#ar)"/>`; }).join('')}
+    ${N.map(([t, s, x, y, c], i) => `<g class="mn" data-n="${i}"><rect x="${x - 62}" y="${y - 22}" width="124" height="${s ? 44 : 30}" rx="10" fill="var(--surface)" stroke="${c}" stroke-width="2"/><text x="${x}" y="${y - (s ? 4 : -4)}" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink)" font-family="IBM Plex Sans Arabic, sans-serif">${t}</text>${s ? `<text x="${x}" y="${y + 13}" text-anchor="middle" font-size="10.5" fill="var(--ink-2)" font-family="IBM Plex Sans Arabic, sans-serif">${s}</text>` : ''}</g>`).join('')}
     <text x="78" y="212" font-size="10.5" fill="var(--accent)" font-family="IBM Plex Sans Arabic, sans-serif">كسر الحلقة</text></svg>`;
 }
 
 /* ================= التقارير ================= */
-VIEWS.reports = {
-  kind: 'consult', from: null, to: null,
-  html() {
-    const V = VIEWS.reports; if (!V.from) { V.from = lastConsult()?.date || D.profile.startDate; V.to = today(); }
-    return `<div class="head"><div><h1>التقارير</h1><p>تقرير الاستشارة لكل دورة، وتقرير الرحلة الكامل من البداية.</p></div>
-      <div class="row"><button class="btn ${V.kind === 'consult' ? 'primary' : ''}" data-k="consult">تقرير الاستشارة</button><button class="btn ${V.kind === 'journey' ? 'primary' : ''}" data-k="journey">تقرير الرحلة</button></div></div>
-    ${V.kind === 'consult' ? `<section class="card" style="margin-bottom:14px"><div class="row"><label class="f">من<input type="date" id="rF" value="${V.from}"></label><label class="f">إلى<input type="date" id="rT" value="${V.to}"></label>
-      ${EDIT && CAP.sample ? '<button class="btn ai" id="aiSum">ملخص بـ Claude</button>' : ''}${CAP.downloads ? '<button class="btn" id="dlR">تنزيل التقرير</button>' : ''}</div>
-      ${EDIT ? `<label class="f" style="margin-top:8px">أسئلة للدكتور (سطر لكل سؤال)<textarea id="rQ" style="min-height:60px">${esc(D.report.questions || '')}</textarea></label>` : ''}</section>` : `<section class="card" style="margin-bottom:14px"><div class="row">${CAP.downloads ? '<button class="btn" id="dlR">تنزيل التقرير</button>' : ''}<span class="muted">التقرير يتحدّث كل يوم، وبنهاية التعافي يصير التقرير النهائي.</span></div></section>`}
-    <div id="rep">${V.kind === 'consult' ? consultReport(V.from, V.to) : journeyReport()}</div>`;
-  },
-  bind(root) {
-    const V = VIEWS.reports;
-    $$('[data-k]', root).forEach(b => b.onclick = () => { V.kind = b.dataset.k; render(); });
-    const f = $('#rF', root); if (f) { f.onchange = e => { V.from = e.target.value; render(); }; $('#rT', root).onchange = e => { V.to = e.target.value; render(); }; }
-    const q = $('#rQ', root); if (q) { let t; q.oninput = e => { D.report.questions = e.target.value; clearTimeout(t); t = setTimeout(() => { markDirty('cfg'); }, 800); }; }
-    const ai = $('#aiSum', root); if (ai) ai.onclick = async () => {
-      ai.disabled = true; ai.textContent = 'Claude يكتب…';
-      try {
-        const days = range(V.from, V.to).map(dayStats).filter(s => s.session !== 'nodata').map(s => ({ d: s.date, ex: `${s.done}/${s.planned}`, pain: s.painMax, am: s.painMorning, steps: s.log?.steps, note: (s.log?.notes || '').slice(0, 300) }));
-        const r = await CAP.sample(`اكتب ملخص سريري قصير ومهني (5–7 أسطر) لمعالج طبيعي، عن فترة تأهيل لاعتلال الوتر الرضفي، بالعربية الفصحى المبسطة. اعتمد على الأرقام فقط، ولا تشخص ولا تقترح تغيير بالخطة. اذكر الالتزام، والألم مقابل الحد (${curPhase()?.painLimit}/10)، واتجاه الخطوات، وأي ملاحظة مهمة من المريض. البيانات اليومية: ${JSON.stringify(days)}`, { modelTier: 'default' });
-        D.report.summary = r.text.trim(); D.report.summaryFor = V.from + '|' + V.to; markDirty('cfg'); render();
-      } catch (e) { toast(e?.code === 'rate_limited' ? 'طلبات كثيرة، انتظر دقيقة' : 'تعذر كتابة الملخص'); ai.disabled = false; ai.textContent = 'ملخص بـ Claude'; }
-    };
-    const dl = $('#dlR', root); if (dl) dl.onclick = async () => {
-      const html = standalone($('#rep').innerHTML, V.kind === 'consult' ? 'تقرير متابعة' : 'تقرير الرحلة');
-      try { await CAP.downloads.save({ filename: (V.kind === 'consult' ? `rukba-report-${V.from}_${V.to}` : `rukba-journey-${today()}`) + '.html', data: new Blob([html], { type: 'text/html' }) }); } catch (e) { if (e?.code !== 'cancelled' && e?.code !== 'declined') toast('ما صار التنزيل'); }
-    };
-  }
-};
+/* ================= التقارير (داخل السجل) ================= */
+function reportsHtml() {
+  const V = VIEWS.log; if (!V.from) { V.from = lastConsult()?.date || D.profile.startDate; V.to = today(); }
+  return `${V.sub === 'consult' ? `<section class="card" style="margin-bottom:14px"><div class="row" style="align-items:end"><label class="f">من<input type="date" id="rF" value="${V.from}"></label><label class="f">إلى<input type="date" id="rT" value="${V.to}"></label>
+      ${EDIT && AI.ok() ? '<button class="btn ai" id="aiSum">✦ ملخص بـ Claude</button>' : ''}${CAP.downloads ? '<button class="btn" id="dlR">تنزيل التقرير</button>' : ''}</div>
+      ${EDIT ? `<label class="f" style="margin-top:8px">أسئلة للدكتور (سطر لكل سؤال)<textarea id="rQ" style="min-height:60px">${esc(D.report.questions || '')}</textarea></label>` : ''}</section>`
+    : `<section class="card" style="margin-bottom:14px"><div class="row">${CAP.downloads ? '<button class="btn" id="dlR">تنزيل التقرير</button>' : ''}<span class="muted">يتحدّث كل يوم، وبنهاية التعافي يصير التقرير النهائي.</span></div></section>`}
+    <div id="rep">${V.sub === 'consult' ? consultReport(V.from, V.to) : journeyReport()}</div>`;
+}
+function bindReports(root) {
+  const V = VIEWS.log;
+  const f = $('#rF', root); if (f) { f.onchange = e => { V.from = e.target.value; render(); }; $('#rT', root).onchange = e => { V.to = e.target.value; render(); }; }
+  const q = $('#rQ', root); if (q) { let t; q.oninput = e => { D.report.questions = e.target.value; clearTimeout(t); t = setTimeout(() => markDirty('cfg'), 800); }; }
+  const ai = $('#aiSum', root); if (ai) ai.onclick = async () => {
+    ai.disabled = true; ai.textContent = 'Claude يكتب…';
+    try {
+      const days = range(V.from, V.to).map(dayStats).filter(s => s.session !== 'nodata').map(s => ({ d: s.date, ex: `${s.done}/${s.planned}`, pain: s.painMax, am: s.painMorning, steps: s.log?.steps, note: (s.log?.notes || '').slice(0, 300) }));
+      const r = await AI.text(`اكتب ملخص سريري قصير ومهني (5–7 أسطر) لمعالج طبيعي، عن فترة تأهيل لاعتلال الوتر الرضفي، بالعربية الفصحى المبسطة. اعتمد على الأرقام فقط، ولا تشخص ولا تقترح تغيير بالخطة. اذكر الالتزام، والألم مقابل الحد (${curPhase()?.painLimit}/10)، واتجاه الخطوات، وأي ملاحظة مهمة من المريض. أرجع نص الملخص فقط. البيانات اليومية: ${JSON.stringify(days)}`);
+      D.report.summary = r.trim(); D.report.summaryFor = V.from + '|' + V.to; markDirty('cfg'); render();
+    } catch (e) { toast(AI.err(e)); ai.disabled = false; ai.textContent = '✦ ملخص بـ Claude'; }
+  };
+  const dl = $('#dlR', root); if (dl) dl.onclick = async () => {
+    const html = standalone($('#rep').innerHTML, V.sub === 'consult' ? 'تقرير متابعة' : 'تقرير الرحلة');
+    try { await CAP.downloads.save({ filename: (V.sub === 'consult' ? `rukba-report-${V.from}_${V.to}` : `rukba-journey-${today()}`) + '.html', data: new Blob([html], { type: 'text/html' }) }); } catch (e) { if (e?.code !== 'cancelled' && e?.code !== 'declined') toast('ما صار التنزيل'); }
+  };
+}
 function kpi(l, v, d) { return `<div class="card kpi" style="padding:12px 14px"><div class="l">${l}</div><div class="v" style="font-size:22px">${v}</div>${d ? `<div class="d">${d}</div>` : ''}</div>`; }
 function consultReport(from, to) {
   if (!from || !to || from > to) return '<p class="muted">اختر فترة صحيحة.</p>';
@@ -898,39 +1216,47 @@ function standalone(inner, title) {
 /* ================= الإعدادات ================= */
 VIEWS.settings = {
   html() {
-    const p = D.profile;
-    return `<div class="head"><div><h1>الإعدادات والبيانات</h1><p>البيانات محفوظة على هذا الجهاز، وتتزامن بين أجهزتك عن طريق GitHub Gist إذا فعّلته.</p></div></div>
+    const p = D.profile, s = Sync.secrets(), gh = MODE === 'gh';
+    const link = gh && Sync.enabled() && s.gistId ? location.href.replace(/[#?].*$/, '') + '?d=' + s.gistId : '';
+    return `<div class="head"><div><h1>الإعدادات</h1><p>${gh ? 'البيانات محفوظة على هذا الجهاز، وتتزامن بين أجهزتك عن طريق GitHub Gist إذا فعّلته.' : 'البيانات محفوظة بالسحابة وتتزامن تلقائياً.'}</p></div></div>
     <div class="grid g2" style="align-items:start">
       <section class="card"><h2>الملف</h2><div class="grid g2">
-        ${[['name', 'الاسم', 'text'], ['startWeight', 'وزن البداية', 'number'], ['goalWeight', 'الوزن الهدف', 'number'], ['flexionNow', 'زاوية الثني الأولية', 'number'], ['flexionGoal', 'زاوية السجود الهدف', 'number'], ['startDate', 'بداية العلاج', 'date']].map(([k, l, ty]) => `<label class="f">${l}<input type="${ty}" data-pk="${k}" value="${esc(p[k] ?? '')}" ${ty === 'number' ? 'step="any"' : ''}></label>`).join('')}</div>
-        <p class="muted">زاوية السجود الهدف حددها مع الدكتور.</p></section>
-      <section class="card"><h2>نقل البيانات</h2>
-        <p class="sub" style="margin-top:0">بيانات نسخة رُكبة القديمة على هذا الجهاز انقلت تلقائياً أول مرة. ولو عندك ملف تصدير قديم من جهاز ثاني، استورده هنا. الدمج ياخذ الأحدث لكل يوم.</p>
-        <div class="row"><label class="btn" for="imp">استيراد ملف</label><input type="file" id="imp" accept=".json,application/json" hidden><button class="btn" id="exp">تصدير نسخة</button></div></section>
-      <section class="card"><h2>المزامنة بين الأجهزة (GitHub Gist)</h2>
-        ${(() => { const s = Sync.secrets(); return Sync.enabled()
-          ? `<p class="sub" style="margin-top:0">المزامنة مفعّلة${s.lastSync ? ' · آخر مزامنة ' + new Date(s.lastSync).toLocaleTimeString('ar-IQ-u-nu-latn', { hour: '2-digit', minute: '2-digit' }) : ''}. نفس التوكن على الآيباد واللابتوب يخلي البيانات وحدة.</p>
-             <div class="row"><button class="btn primary" id="saveNow">زامن الآن</button><button class="btn" id="gOff">إيقاف المزامنة</button></div>`
-          : `<p class="sub" style="margin-top:0">الصق توكن GitHub (صلاحية gist فقط). يُحفظ على هذا الجهاز بس. إذا عندك Gist من النسخة القديمة، الصق رقمه حتى تنحفظ بنفس المكان.</p>
+        ${[['name', 'الاسم', 'text'], ['startWeight', 'وزن البداية', 'number'], ['goalWeight', 'الوزن الهدف', 'number'], ['flexionNow', 'زاوية الثني الأولية', 'number'], ['flexionGoal', 'زاوية السجود الهدف', 'number'], ['startDate', 'بداية العلاج', 'date']].map(([k, l, ty]) => `<label class="f">${l}<input type="${ty}" data-pk="${k}" value="${esc(p[k] ?? '')}" ${ty === 'number' ? 'step="any"' : ''}></label>`).join('')}</div></section>
+      <section class="card"><h2>Claude ${AI.ok() ? '<span class="badge ok">مفعّل</span>' : '<span class="badge">غير مفعّل</span>'}</h2>
+        ${!gh ? '<p class="sub" style="margin:0">Claude مربوط تلقائياً هنا: ترتيب الخطط، وطريقة الأداء، وملخص التقرير.</p>'
+        : `<p class="sub" style="margin-top:0">حتى يرتب Claude خططك من أسماء التمارين، الصق مفتاح API من <span class="ltr">console.anthropic.com</span>. محاسبته منفصلة عن اشتراك Claude، والطلب الواحد يكلف أقل من سنت تقريباً. المفتاح يُحفظ على هذا الجهاز بس.</p>
+          <label class="f">مفتاح API<input type="password" id="aKey" dir="ltr" value="${esc(s.apiKey || '')}" placeholder="sk-ant-…"></label>
+          <div class="row" style="margin-top:8px"><button class="btn primary" id="aSave">حفظ وتجربة</button>${s.apiKey ? '<button class="btn" id="aOff">حذف المفتاح</button>' : ''}</div>`}</section>
+      ${gh ? `<section class="card"><h2>المزامنة بين الأجهزة</h2>
+        ${Sync.enabled() ? `<p class="sub" style="margin-top:0">مفعّلة${s.lastSync ? ' · آخر مزامنة ' + new Date(s.lastSync).toLocaleTimeString('ar-IQ-u-nu-latn', { hour: '2-digit', minute: '2-digit' }) : ''}. نفس التوكن ورقم الـ Gist على الآيباد واللابتوب.</p>
+             <div class="row"><button class="btn primary" id="saveNow">زامن الآن</button><button class="btn" id="gOff">إيقاف</button></div>`
+          : `<p class="sub" style="margin-top:0">الصق توكن GitHub (صلاحية gist فقط). إذا عندك Gist من النسخة القديمة الصق رقمه.</p>
              <label class="f">التوكن<input type="password" id="gTok" dir="ltr" value="${esc(s.token || '')}"></label>
              <label class="f" style="margin-top:8px">رقم الـ Gist (اختياري)<input type="text" id="gId" dir="ltr" value="${esc(s.gistId || '')}"></label>
-             <div class="row" style="margin-top:8px"><button class="btn primary" id="gOn">فعّل المزامنة</button></div>`; })()}</section>
+             <div class="row" style="margin-top:8px"><button class="btn primary" id="gOn">فعّل المزامنة</button></div>`}</section>` : ''}
       <section class="card"><h2>رابط الدكتور</h2>
-        ${(() => { const s = Sync.secrets(); if (!Sync.enabled() || !s.gistId) return '<p class="sub" style="margin:0">فعّل المزامنة أولاً، وبعدها يطلع هنا رابط خاص للدكتور.</p>';
-          const link = location.href.replace(/[#?].*$/, '') + '?d=' + s.gistId;
-          return `<p class="sub" style="margin-top:0">ابعث هذا الرابط لد. أصيل. يشوف "عرض التقدم" بس: الشاشة، والجدول، والخطة بتمارينها وطريقة أدائها، والأهداف، والإصابة، والتقارير. ويتحدث كل ما تزامن. ما يشوف التسجيل ولا الإعدادات.</p>
-            <input type="text" readonly dir="ltr" id="docLink" value="${esc(link)}" style="width:100%"><div class="row" style="margin-top:8px"><button class="btn" id="cpLink">انسخ الرابط</button></div>`; })()}</section>
+        ${!gh ? '<p class="sub" style="margin:0">من زر المشاركة بالأعلى، أضف إيميل الدكتور كمشاهد. يشوف عرض التقدم بس: الرئيسية، والخطة بتمارينها، والسجل، والإصابة. وما يشوف التسجيل ولا الإعدادات.</p>'
+        : link ? `<p class="sub" style="margin-top:0">ابعثه لد. أصيل. يشوف عرض التقدم بس، ويتحدث كل ما تزامن.</p><input type="text" readonly dir="ltr" id="docLink" value="${esc(link)}"><div class="row" style="margin-top:8px"><button class="btn" id="cpLink">انسخ الرابط</button></div>`
+        : '<p class="sub" style="margin:0">فعّل المزامنة أولاً، وبعدها يطلع هنا الرابط.</p>'}</section>
+      <section class="card"><h2>نقل البيانات</h2>
+        <p class="sub" style="margin-top:0">بيانات نسخة رُكبة القديمة على هذا الجهاز انقلت تلقائياً. ولو عندك ملف تصدير من جهاز ثاني، استورده. الدمج ياخذ الأحدث لكل يوم.</p>
+        <div class="row"><label class="btn" for="imp">استيراد ملف</label><input type="file" id="imp" accept=".json,application/json" hidden>${CAP.downloads ? '<button class="btn" id="exp">تصدير نسخة</button>' : ''}${!gh ? `<button class="btn primary" id="saveNow" ${dirty ? '' : 'disabled'}>حفظ الآن</button>` : ''}</div></section>
     </div>`;
   },
   bind(root) {
     $$('[data-pk]', root).forEach(i => i.onchange = () => { D.profile[i.dataset.pk] = i.type === 'number' ? num(i.value) : i.value; markDirty('cfg'); toast('حُفظ'); });
-    const sn = $('#saveNow', root); if (sn) sn.onclick = () => { manualSave = true; clearTimeout(saveTimer); saveCloud(true); };
+    const sn = $('#saveNow', root); if (sn) sn.onclick = () => { manualSave = true; clearTimeout(saveTimer); if (MODE === 'claude') dirty = true; saveCloud(true); };
     const go = $('#gOff', root); if (go) go.onclick = () => { Sync.setSecrets({ ...Sync.secrets(), on: false }); saveState(); render(); };
     const gon = $('#gOn', root); if (gon) gon.onclick = async () => {
       const token = $('#gTok', root).value.trim(), gistId = $('#gId', root).value.trim(); if (!token) { toast('الصق التوكن'); return; }
       Sync.setSecrets({ ...Sync.secrets(), token, gistId: gistId || Sync.secrets().gistId, on: true }); manualSave = true; await saveCloud(true); render(); };
+    const as = $('#aSave', root); if (as) as.onclick = async () => {
+      const k = $('#aKey', root).value.trim(); if (!k) { toast('الصق المفتاح'); return; }
+      Sync.setSecrets({ ...Sync.secrets(), apiKey: k }); as.disabled = true; as.textContent = 'جاري التجربة…';
+      try { await AI.text('رد بكلمة "تمام" فقط.'); toast('Claude مفعّل'); render(); } catch (e) { toast(AI.err(e)); as.disabled = false; as.textContent = 'حفظ وتجربة'; } };
+    const ao = $('#aOff', root); if (ao) ao.onclick = () => { const s = Sync.secrets(); delete s.apiKey; Sync.setSecrets(s); render(); };
     const cp = $('#cpLink', root); if (cp) cp.onclick = async () => { const i = $('#docLink', root); try { await navigator.clipboard.writeText(i.value); toast('انسخ'); } catch { i.select(); } };
-    $('#exp', root).onclick = () => CAP.downloads.save({ filename: `rukba-data-${today()}.json`, data: JSON.stringify(D, null, 1) });
+    const ex = $('#exp', root); if (ex) ex.onclick = async () => { try { await CAP.downloads.save({ filename: `rukba-data-${today()}.json`, data: JSON.stringify(D, null, 1) }); } catch {} };
     $('#imp', root).onchange = e => { const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => {
       try { const n = importData(JSON.parse(rd.result)); markDirty('cfg'); toast(`تم دمج ${n} يوم`); render(); }
       catch { toast('الملف مو نسخة رُكبة صالحة'); } }; rd.readAsText(f); e.target.value = ''; };
